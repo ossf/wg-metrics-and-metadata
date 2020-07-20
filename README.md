@@ -1,4 +1,4 @@
-# OpenSSF Identifying Security Threats in Open Source Projects
+# OpenSSF WG: Identifying Security Threats in Open Source Projects
 
 Anyone is welcome to join our open discussions related to the group's mission and charter.
 
