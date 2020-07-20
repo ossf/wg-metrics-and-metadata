@@ -1,10 +1,10 @@
-# OSSF Project/WG Template
+# OpenSSF Identifying Security Threats in Open Source Projects
 
 Anyone is welcome to join our open discussions related to the group's mission and charter.
 
 ## Objective
 
-Our objective to make enlightening open source security dashboards!
+Our objective is to enable stakeholders to have informed confidence in the security of open source projects. At the macro level, this includes identifying threats to the open source ecosystem and recommending practical mitigations. At the micro level, we will identify a set of key metrics and build tooling (API, web UI) to communicate those metrics to stakeholders, enabling those stakeholders to better understand the security posture of individual open source components
 
 ## Vision
 
