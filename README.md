@@ -1,4 +1,4 @@
-# OpenSSF WG: Identifying Security Threats in Open Source Projects
+# OpenSSF Working Group: Identifying Security Threats in Open Source Projects
 
 Anyone is welcome to join our open discussions related to the group's mission and charter.
 
@@ -10,7 +10,7 @@ Our objective is to enable stakeholders to have informed confidence in the secur
 
 Our vision is to improve the perception of security in open source software.
 
-# Governance
+## Governance
 
 The [CHARTER.md](CHARTER.md) outlines the scope and governance of our group activities.
 
@@ -21,4 +21,5 @@ The [CHARTER.md](CHARTER.md) outlines the scope and governance of our group acti
 
 ## Meeting times
 
-<link to calendar>
+This working group meets every other week, on Mondays, from 9:00-10:00 AM (PT), via Zoom. If you
+would like to participate, please (TBD).
