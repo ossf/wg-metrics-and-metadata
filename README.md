@@ -22,4 +22,4 @@ The [CHARTER.md](CHARTER.md) outlines the scope and governance of our group acti
 ## Meeting times
 
 This working group meets every other week, on Mondays, from 9:00-10:00 AM (PT), via Zoom. If you
-would like to participate, please (TBD).
+would like to participate, please contact [Michael Scovetta](mailto:michael.scovetta@microsoft.com).
