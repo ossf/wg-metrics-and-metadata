@@ -16,8 +16,7 @@ The [CHARTER.md](CHARTER.md) outlines the scope and governance of our group acti
 
 ## Communications
 
-* [Meeting Minutes](https://docs.google.com/document/d/1uXQI1vI5_HyOvxHMexrnTY_ruBrynbPl5yOd1UM4g3A/edit#heading=h.yworp6sxzb6g)
-* TODO email list, github discussion
+* [Meeting Minutes](https://docs.google.com/document/d/1AfI0S6VjBCO0ZkULCYZGHuzzW8TPqO3zYxRjzmKvUB4/edit?usp=sharing)
 
 ## Meeting times
 
