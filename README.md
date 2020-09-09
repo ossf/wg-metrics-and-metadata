@@ -20,5 +20,12 @@ The [CHARTER.md](CHARTER.md) outlines the scope and governance of our group acti
 
 ## Meeting times
 
-This working group meets every other week, on Mondays, from 9:00-10:00 AM (PT), via Zoom. If you
-would like to participate, please contact [Michael Scovetta](mailto:michael.scovetta@microsoft.com).
+This working group meets every other week, rotating between Monday and Wednesday mornings, Pacific time:
+
+* Wednesday, September 16, 2020 - 9:00-10:00 AM (PT)
+* Monday, September 28, 2020 - 8:00-9:00 AM (PT)
+* Wednesday, October 14, 2020 - 9:00-10:00 AM (PT)
+* Monday, October 26, 2020 - 8:00-9:00 AM (PT)
+* (and so on).
+
+To receive an invite to the meeting series, please contact [Michael Scovetta](mailto:michael.scovetta@microsoft.com).
