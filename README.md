@@ -29,4 +29,6 @@ This working group meets every other week, rotating between Monday and Wednesday
 * Monday, October 26, 2020 - 8:00-9:00 AM (PT)
 * (and so on).
 
+The meetings appear on the [OpenSSF Community Calendar](https://calendar.google.com/calendar?cid=czYzdm9lZmhwNWk5cGZsdGI1cTY3bmdwZXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ).
+
 To receive an invite to the meeting series, please contact [Michael Scovetta](mailto:michael.scovetta@microsoft.com).
