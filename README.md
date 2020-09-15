@@ -17,6 +17,7 @@ The [CHARTER.md](CHARTER.md) outlines the scope and governance of our group acti
 ## Communications
 
 * [Meeting Minutes](https://docs.google.com/document/d/1AfI0S6VjBCO0ZkULCYZGHuzzW8TPqO3zYxRjzmKvUB4/edit?usp=sharing)
+* [Mailing list](https://lists.openssf.org/g/openssf-wg-security-threats). [Manage your subscriptions to Open SSF mailing lists](https://lists.openssf.org/g/main/subgroups).
 
 ## Meeting times
 
