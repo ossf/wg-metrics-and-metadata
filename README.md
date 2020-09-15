@@ -17,6 +17,7 @@ The [CHARTER.md](CHARTER.md) outlines the scope and governance of our group acti
 ## Communications
 
 * [Meeting Minutes](https://docs.google.com/document/d/1AfI0S6VjBCO0ZkULCYZGHuzzW8TPqO3zYxRjzmKvUB4/edit?usp=sharing)
+* [Mailing list](https://lists.openssf.org/g/openssf-wg-security-threats). [Manage your subscriptions to Open SSF mailing lists](https://lists.openssf.org/g/main/subgroups).
 
 ## Meeting times
 
@@ -27,5 +28,7 @@ This working group meets every other week, rotating between Monday and Wednesday
 * Wednesday, October 14, 2020 - 9:00-10:00 AM (PT)
 * Monday, October 26, 2020 - 8:00-9:00 AM (PT)
 * (and so on).
+
+The meetings appear on the [OpenSSF Community Calendar](https://calendar.google.com/calendar?cid=czYzdm9lZmhwNWk5cGZsdGI1cTY3bmdwZXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ).
 
 To receive an invite to the meeting series, please contact [Michael Scovetta](mailto:michael.scovetta@microsoft.com).
