@@ -86,8 +86,8 @@ Thank you to everyone who reviewed, commented, and provided content for this doc
 | [Ideation / Concept Phase](#Ideation-/-Concept-Phase)         | 5   |
 | [Local Development Phase](#Local-Development-Phase)           | 8   |
 | [External Contributions Phase](#External-Contributions-Phase) | 17  |
-| Central Infrastructure Phase                                  | 19  |
-| Package Consumption Phase                                     | 23  |
+| [Central Infrastructure Phase](#Central-Infrastructure-Phase) | 19  |
+| [Package Consumption Phase](#Package-Consumption-Phase)       | 23  |
 | Vulnerability Reporting & Security Response Phase             | 34  |
 | Cross-Cutting Activities                                      | 38  |
 | Conclusion                                                    | 47  |
@@ -408,3 +408,177 @@ Testing often takes place both locally (usually informally) and within a formal 
 In this phase, we explore changes made to a software component by a loosely-affiliated individual, which is to say not by the main author or trusted maintainer. This contributor can be trustworthy or underhanded, and the contribution itself can be of any level of quality. Most open source projects have a way to validate and accept (or reject) these contributions, and the most common way is through a pull request.
 
 When a contribution is made, a maintainer usually needs to “sign off” on the change before merging it into an “official” code branch.
+
+In this phase, we have the following threat actors:
+
+- An attacker trying to “sneak” a malicious change into a code base.
+
+- An attacker can attempt to undermine the pull request validation infrastructure.
+
+### Preventing Malicious Changes from Contributors
+
+Typically, pull requests are validated through some combination of automated tools and manual introspection. Tools often cover things like ensuring a Contributor License Agreement (CLA) is in place for corporate organizations, that code passes unit tests, meets style requirements, passes linting, or is free of (detectable) security vulnerabilities. Unfortunately, attackers would be able to mimic these checks locally, tweaking their contribution until it passes. As a result, manual introspection is an essential part of accepting pull requests.
+
+This risk can be mitigated to some degree by:
+
+- Ensuring that all contributions from less-trusted parties are reviewed, preferably by two maintainers, before they is merged.
+
+- Ensuring that all security tools are run successfully before completing a pull request.
+
+- Ensuring that all changes to the component’s attack surface or core characteristics are properly reviewed, using tools like [Microsoft Application Inspector](https://github.com/Microsoft/ApplicationInspector) and the [NPM Security Insights API](https://blog.npmjs.org/post/188385634100/npm-security-insights-api-preview-part-2-malware).
+
+However, we strongly suspect that manual introspection of malicious, intentionally obfuscated changes will not be entirely effective. To prove this out, we recommend a “red team” exercise be performed to ascertain the likelihood that a “hidden” change will pass through a code review.
+
+### Undermining Automated Validation on Pull Requests
+
+Tools are often used to validate that a pull request meets some type of quality bar. This often involves performing a build and running unit tests and other tools to detect issues.
+
+A modern coding practice is to include build scripts, configuration, and unit tests within the project’s source code repository. This means that an attacker could submit a pull request that, for example, disables both a security feature and its associated unit test. Validation would “pass” and only a manual review would detect this change as suspect. 
+
+However, an attacker would also be able to do things like exfiltrate any secrets accessible to the build environment or execute arbitrary code (via a build script) within that environment.
+
+Many continuous integration systems have built controls to mitigate the risk of disclosing secrets, including [GitHub Actions](https://github.community/t5/GitHub-Actions/don-t-run-actions-on-pull-request-from-fork/td-p/45499), [Azure DevOps](https://docs.microsoft.com/en-us/azure/devops/pipelines/repos/github?view=azure-devops&tabs=yaml#validate-contributions-from-forks), [Travis CI](https://docs.travis-ci.com/user/pull-requests#Pull-Requests-and-Security-Restrictions), and [CircleCI](https://circleci.com/blog/managing-secrets-when-you-have-pull-requests-from-outside-contributors/). This is often implemented by not passing secrets to pull requests initiated from forked repositories.
+
+To mitigate the remaining risks, we recommend:
+
+- Any changes to build configurations should be validated, similar to any other change.
+
+- All pull request validation routines should be limited to an expected duration and frequency, in order to avoid denial of service or resource exhaustion.
+
+## Central Infrastructure Phase
+
+<img src="img/CentralInfrastructure.png" title="" alt="Central Infrastructure Phase" width="406">
+
+“Central Infrastructure” refers to elements in the open source supply chain that are typically operated “as a service” by a trusted third party (e.g., GitHub, NPM, Travis CI, Azure DevOps, etc.). This has advantages to both the maintainer (lower cost and complexity, high quality, etc.) and consumer (increased trust), but some threats apply here.
+
+### Source Code Repository
+
+First, attackers could target the source code repository. Despite most open source development now using a distributed source control system (git), most source code is stored in a central location, such as GitHub, Bitbucket, GitLab, or Azure DevOps. New developers (or existing developers performing a git clone-style operation) would have a hard time determining the authenticity of a repository if it were modified by an attacker.
+
+This threat is already mitigated by strong operational security practices that these central organizations employ, and can be further mitigated by increased use of [commit signing](https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work) with central trust authorities.
+
+The open source developer’s credentials could also be hijacked by an attacker. With those credentials, the attacker could modify the source code available, perform builds, and trigger publishing pipelines—essentially, anything the “real” maintainer could do). This risk is mitigated to a large extent by the use of multi-factor authentication, but could be expanded to include anomaly detection (e.g., requiring an additional layer of authentication if an action is triggered from an unexpected location, or based on other metadata).
+
+### Security Validation
+
+Security validation usually either takes place on a developer’s local workstation or centrally once changes have been made to a source code repository. We’re using the term “security validation” to include things like static analysis, automated penetration testing, fuzzing, and related tasks—the goal of which is to identify security defects so they can be fixed before they can be found by an attacker and exploited.
+
+There are a few threats that pertain to this phase of the development lifecycle, including:
+
+- [An attacker learns of security defects prior to a fix being available.](#Premature-Disclosure)
+
+- [An attacker is able to disable certain security checks from taking place.](#Attacker-Disabling-Security-Checks)
+
+- [An attacker is able to author a malicious contribution that isn’t identified when analyzed.](#Malicious-Contributions)
+
+#### Premature Disclosure
+
+Premature disclosure occurs when a tool is used to identify security defects in a system or software component, but the results wind up being disclosed to an attacker before they can be remediated.
+
+There is room for argument here on whether full, public disclosure leads to better outcomes, with market forces putting pressure on maintainers (or other contributors) to fix security defects. After all, we should assume that most attackers will be able to perform the same validation activities themselves. On the other hand, security is often about increasing the cost to an attacker, and providing a public list of vulnerable components could certainly lead to more successful attacks.
+
+An additional point here concerns the level of triage involved. Security tools can often yield a large number of false positives: either completely invalid findings or those that cannot be exploited for one reason for another. The value to an attacker of un-triaged findings is far less than the value of those that have been validated as high-impact—the latter approaching the realm of [Responsible Disclosure](https://en.wikipedia.org/wiki/Responsible_disclosure).
+
+We recommend the following:
+
+- Research should be conducted, reviewed, or consolidated to come up with the right policy on public disclosure of un-triaged and minimally triaged findings from automated security tools.
+
+- Funding should be considered to triage potentially high-impact security findings detected by certain tools (e.g., [lgtm.com](https://lgtm.com) and others).
+
+#### Attacker Disabling Security Checks
+
+If an attacker is able to change the configuration of security checks, they would be more likely to be able to “slip something by” the security validation process and insert vulnerable or malicious code into the software component.
+
+As a result, all changes to the security configuration (e.g., [lgtm.yml](https://lgtm.com/help/lgtm/lgtm.yml-configuration-file)) should be examined by a human to ensure they don’t, for example:
+
+- reduce the severity of certain defect types,
+
+- ignore certain paths,
+
+- change build commands, or
+
+- change alerting or notification settings.
+
+We recommend the following:
+
+- Research should be performed to determine the feasibility of this attack and what types of mitigation could help. Specifically, a “red team” exercise should be performed, to attempt to undermine the security checks performed against a project created for this purpose.
+
+#### Malicious Contributions
+
+Most open source projects accept contribution requests from anyone in the form of pull requests. An attacker could attempt to “trick” a maintainer into accepting their contributions, through a few different means:
+
+- **Minified Code.** Changes made to minified code can be very difficult to read, especially with a line-by-line view of the differences. (Though to be clear, minified code should probably be the output of a build process, and therefore not checked into a source code repository in the first place.)
+
+- **Many good changes, one bad one.** If an attacker has provided multiple “good” changes, especially over time, the maintainer may relax their guard and accept a subsequent change without reviewing it as much. Similarly, if a single pull request had hundreds of similar changes (e.g., “fix indenting”), it may be hard to find the malicious change.
+
+- **Homoglyphs.** Homoglyphs can be problematic because the text will “look correct” to a human reviewer but will actually be different, leading the victim to an alternate library.
+  
+  *Can you spot the difference?*
+  
+  |     |     |     |      |     |     |     |
+  |:---:|:---:|:---:|:----:|:---:|:---:|:---:|
+  | l   | e   | f   | t    | p   | a   | d   |
+  |     |     |     | *vs* |     |     |     |
+  | ⅼ   | е   | f   | t    | р   | а   | ⅾ   |
+
+  *In the bottom table, six of the seven characters are from “non-ASCII” character sets defined by Unicode.*
+
+- **Large Diffs.** GitHub does not show large diffs by default, and instead shows a “load diff” link, which can be easy to miss, [especially in lock files](https://snyk.io/blog/why-npm-lockfiles-can-be-a-security-blindspot-for-injecting-malicious-modules/).
+
+- **Binary Files.** Most pull request review systems do not render differences made to binary files, leaving it up to the maintainer to review these out-of-band.
+
+We recommend the following:
+
+- Research should be performed to determine the feasibility of this attack and what types of mitigation could help (such as improvements to the pull request review user interface). Specifically, an adversarial “red team” exercise should be undertaken to attempt to submit malicious changes to a target repository created for this purpose.
+
+### Continuous Integration & Delivery
+
+Within a continuous integration and delivery environment, there is some increased risk that vulnerable or malicious content will make its way out to a published package without being detected. Indeed, many of the friction-reducing practices that enable agile development also enable faster “time to market” for “bad” code. If a dependency is updated and all tests pass, a malicious change could make its way into a published package in a matter of seconds.
+
+It is important to consider the principles and practices of [DevSecOps](https://www.csoonline.com/article/3245748/what-is-devsecops-developing-more-secure-applications.html) and how they can be applied within the CI/CD context. Some useful resources with specific recommendations and walkthroughs include:
+
+- [Every Security Team is a Software Team Now](https://www.youtube.com/watch?v=8armE3Wz0jk) (Dino Dai Zovi, Black Hat USA 2019)
+
+- [Building Secure & Reliable Systems](https://landing.google.com/sre/books/) (Google)
+
+- [DevSecOps - Implementing Secure CI/CD Pipelines](https://www.youtube.com/playlist?list=PLjNII-Jkdjfz5EXWlGMBRk63PC8uJsHMo) (YouTube)
+
+- [A Primer on Secure DevOps: Why DevSecOps Matters](https://techbeacon.com/security/primer-secure-devops-why-devsecops-matters) (Chris Romeo, TechBeacon)
+
+- [Six Pillars of DevSecOps](https://cloudsecurityalliance.org/artifacts/six-pillars-of-devsecops/) (Cloud Security Alliance)
+
+### Package Publishing
+
+The act of publishing a package to a package management repository usually starts with the maintainer establishing an account within that ecosystem, and then performing some action that ends with a package being available for consumers to select and install.
+
+The main threat here is that an attacker would gain access to the maintainer’s credentials, either during account creation, access, or publishing, and use those credentials to perform malicious activities. This could occur through a local attack on the maintainer, an attack on the network or DNS infrastructure, or an attack closer to the central package management infrastructure.
+
+## Package Consumption Phase
+
+<img src="img/PackageConsumptionFlow.png" title="" alt="Package Consumption Flow" width="652">
+
+Package consumption is the process through which “external” packages are chosen and integrated into a software component. In this case, package consumption actually refers to two similar things:
+
+- An “end-user” selects an OSS component to use in their software product.
+
+- An OSS author selects an OSS component to use within their OSS component.
+
+In both of these cases, we’ll refer to “end-user” and OSS author generically as “consumer”.
+
+### Package Selection
+
+From a consumer’s perspective, things begin when they are searching for a package to consume. This often takes place on the package management system’s web page or through a command line (e.g., `pip search mysql or apt-cache search mail`). 
+
+Threats that apply to package selection include:
+
+- An attacker could compromise a maintainer’s credentials and publish malicious packages.
+
+- An attacker could subvert the package selection client software.
+
+- An attacker could compromise the website that displays the package listings.
+
+- An attacker could create a new package with a name similar to an existing package (i.e., typo-squatting).
+
+- An attacker could modify an existing package within a package management repository.
+
+- An attacker could remove a component from a package management repository.
