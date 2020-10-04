@@ -1,4 +1,4 @@
-### Threats, Risks, and Mitigations in the Open Source Ecosystem
+## Threats, Risks, and Mitigations in the Open Source Ecosystem
 
 *[Michael Scovetta](mailto:michael.scovetta@microsoft.com), Microsoft*
 
@@ -47,7 +47,7 @@ A summary of recommendations can be found in the [Appendix]().
 
 The following resources contain content that supplements the information to this document.
 
-#### Industry Reports
+### Industry Reports
 
 - [The State of Open Source Security Vulnerabilities](https://www.whitesourcesoftware.com/open-source-vulnerability-management-report/) (2020, WhiteSource)
 
@@ -57,7 +57,7 @@ The following resources contain content that supplements the information to this
 
 - [2019 Software Supply Chain Report](https://www.sonatype.com/en-us/software-supply-chain-2019) (2019, Sonatype)
 
-#### Guidelines, White Papers, and Standards
+### Guidelines, White Papers, and Standards
 
 - [Fundamental Practices for Secure Software Development](https://safecode.org/wp-content/uploads/2018/03/SAFECode_Fundamental_Practices_for_Secure_Software_Development_March_2018.pdf) (SAFECode)
 
@@ -145,7 +145,7 @@ The main challenges around threat modeling include:
 
 - There may also be a perception that these activities don’t provide much value to open source components, especially since the developer will not have the context of how the component will be ultimately used.
 
-#### Threat Modeling
+### Threat Modeling
 
 Formally, threat modeling is a process by which potential threats are identified and rated for severity, and possible mitigations are discussed. Less formally, threat modeling happens when you think about how the system you’re building could be broken, and consider what you can do to prevent that from happening.
 
@@ -185,7 +185,7 @@ Threats that apply to this phase include:
 
 - Maintainers accidentally check secrets into source code or publish them in packages, which attackers find and exploit.
 
-#### Technical Architecture
+### Technical Architecture
 
 The choice of a technical architecture can have a significant impact on the overall security of a system and the investment needed to keep that system secure in the future. A good (secure) technical architecture can mitigate security risk systemically, while poor technical architectures can amplify it. Our goal in choosing a secure technical architecture is to reduce the likelihood that the system will contain exploitable security vulnerabilities in the future.
 
