@@ -79,19 +79,19 @@ Thank you to everyone who reviewed, commented, and provided content for this doc
 
 ## Table of Contents
 
-|                                                   |     |
-| ------------------------------------------------- | ---:|
-| Introduction                                      | 1   |
-| Threats & Risks                                   | 5   |
-| Ideation / Concept Phase                          | 5   |
-| Local Development Phase                           | 8   |
-| External Contributions Phase                      | 17  |
-| Central Infrastructure Phase                      | 19  |
-| Package Consumption Phase                         | 23  |
-| Vulnerability Reporting & Security Response Phase | 34  |
-| Cross-Cutting Activities                          | 38  |
-| Conclusion                                        | 47  |
-| Appendix                                          | 48  |
+|                                                               |     |
+| ------------------------------------------------------------- | ---:|
+| [Introduction](#Introduction)                                 | 1   |
+| [Threats & Risks](#Threats-&-Risks)                           | 5   |
+| [Ideation / Concept Phase](#Ideation-/-Concept-Phase)         | 5   |
+| [Local Development Phase](#Local-Development-Phase)           | 8   |
+| [External Contributions Phase](#External-Contributions-Phase) | 17  |
+| Central Infrastructure Phase                                  | 19  |
+| Package Consumption Phase                                     | 23  |
+| Vulnerability Reporting & Security Response Phase             | 34  |
+| Cross-Cutting Activities                                      | 38  |
+| Conclusion                                                    | 47  |
+| Appendix                                                      | 48  |
 
 # Threats & Risks
 
@@ -196,3 +196,215 @@ Tactically, bugs like this can often be found through static analysis or fuzzing
 Memory management issues obviously aren’t the only kind of security flaws, however, and many higher-level constructs cannot be feasibly handled at the programming language level, such as a properly-implemented authorization mechanism or the implementation of a new cryptographic protocol. For many of these cases, having well-vetted, commonly used libraries that implement these constructs has advantages over each package author implementing the construct independently. (Indeed, this is one of the primary benefits of using open source software in the first place!)
 
 The [MITRE Common Weakness Enumeration](https://cwe.mitre.org/data/slices/699.html) breakdown is a good resource for understanding the range of issues that can affect a system.
+
+Platform and framework selection can also have a significant impact on the security of an overall system. For example, containers have been ubiquitous in modern software development, but it can be easy to accidentally expose host resources to the container environment, reducing any security protections such a configuration would normally provide.
+
+We recommend the following activities in this area:
+
+- Guidance should be created or curated that describes how to securely configure some of the most common platforms and frameworks (e.g., Docker, Kubernetes, Node/Express). 
+
+- References to high-quality, “batteries included” libraries and frameworks like [ESAPI](https://owasp.org/www-project-enterprise-security-api/) and [Python/Cryptography](https://cryptography.io/en/latest/) should be collected and curated centrally.
+
+- Guidance should be created or curated to help developers choose or design secure technical architectures, with easy-to-understand examples.
+
+### Writing Code
+
+<img src="img/WritingCode.png" title="" alt="Writing code phase" width="249">
+
+All software contains flaws, and those flaws can often impact the security quality of a system. There is clear consensus that the best time to detect and fix security flaws is early in the development process, but this understanding does not always translate into clear action. Many teams apply some sort of analysis, ranging from linters to advanced static analysis tools.
+
+There are a few different options for addressing exploitable vulnerabilities:
+
+- [Identifying Security Vulnerabilities in Source Code](#Identifying-Security-Vulnerabilities-in-Source-Code) (Detect)
+
+- [Identifying Security Vulnerabilities During Execution](#Identifying-Security-Vulnerabilities-During-Execution) (Detect)
+
+- [Reducing the Likelihood that a Vulnerability will be Introduced](#Reducing-the-Likelihood-that-a-Vulnerability-will-be-Introduced) (Prevent)
+
+- [Reducing the Likelihood that a Vulnerability will be Exploited](#Reducing-the-Likelihood-that-a-Vulnerability-will-be-Exploited) (Prevent)
+
+#### Identifying Security Vulnerabilities in Source Code
+
+Static analysis is a term used to describe the process for examining a program outside of its running state (i.e., source code) in an attempt to identify vulnerabilities that would be present if the program were running. These techniques range from simple pattern matching, to analysis of control and data flow graphs, to program emulation, to formal methods for validating pre- and post-conditions.
+
+The quality of static analyzers has increased in recent years, and while you shouldn’t expect perfect accuracy, these tools can often detect exploitable security vulnerabilities before they are even merged into an official code branch. 
+
+Challenges of using static analysis include:
+
+- **Cost.** Open source projects cannot usually afford to pay for a commercial static analysis tool. Fortunately, most are available for free to open source projects, including [LGTM](https://lgtm.com) (GitHub), [Coverity](https://scan.coverity.com/), and [Reshift](https://www.reshiftsecurity.com/). A fairly comprehensive list of static analysis tools can be found on [Wikipedia](https://en.wikipedia.org/wiki/List_of_tools_for_static_code_analysis).
+
+- **Inability to Analyze.** Most static analyzers are language-dependent, meaning that if the tool supports only Java and C#, but your project is written in PHP, then the tool won’t provide you much value. In the worst case, you may be using a programming language for which no analysis tools exist. Analyzers also tend to have challenges when tracing execution between different programming languages (e.g., data coming from a web application, passing through a backend application, to a separate micro-service, and then to a NoSQL store).
+
+- **Complexity to Analyze.** In the best case, analysis is simple: you push a button, analysis runs, and findings are generated. However, depending on the analyzer, you may need to spend additional time configuring it; at scale, this hurdle could stand in the way of many open source projects from adopting static analysis.
+
+- **Cost/Time to Review.** Once a static analysis tool is used, findings need to be reviewed and appropriately actioned. For open source projects, especially those with large code bases, this work can be substantial, especially when it is done for the first time. 
+
+The best way to address these challenges is through improved tools: more accurate rules, better guidance on how to remediate, “turn-key” execution, and broader support for modern and emerging platforms and architectures. We therefore recommend the following:
+
+- Build (and meta-build) systems should improve integration with static analysis tools, enabling “default on” high-quality analysis.
+
+- [GitHub Security Lab](https://securitylab.github.com/) should continue to support community development of security rules and should drive toward “on by default” static analysis within source code repositories.
+
+- Research should be directed toward a standard (cross-tool) format for expressing detection rules, enabling more efficient use of security engineering activities.
+
+- Research should also be directed toward advancing the state of the art around “auto-fixes”, which would be the ability for a static analysis tool to automatically submit a pull request with the required code change to remediate a vulnerability. (We’re under no illusion that this would be difficult or impossible to solve in the general case, but there is plenty of “low-hanging fruit” for which this seems reasonable.)
+
+##### Stack Overflow
+
+An increasingly common development practice is to make extensive use of Stack Overflow. While there isn’t anything wrong with this per se, [many](https://arxiv.org/pdf/1910.01321.pdf) of the answers provided contain [security defects](https://www.ieee-security.org/TC/SP2017/papers/7.pdf), and copying/pasting those answers [can lead to vulnerabilities](https://stackoverflow.blog/2019/11/26/copying-code-from-stack-overflow-you-might-be-spreading-security-vulnerabilities/). While static analysis can be used at the point of consumption to identify vulnerabilities, it would be more efficient to address the source.
+
+We therefore recommend:
+
+- Source code snippets submitted to Stack Overflow should be analyzed, with feedback going to either the author or the public. Readers should be made aware of vulnerable snippets. (The Coalition should consider engaging with Stack Overflow to advocate for a solution integrated into the Stack Overflow experience.)
+
+- To address existing snippets already available on Stack Overflow, a separate analysis could take place, looking for vulnerable code patterns, and recommending fixes or at least commentary alerting individuals potentially affected by the vulnerability.
+
+#### Identifying Security Vulnerabilities During Execution
+
+While most security defects can be theoretically found using static analysis, in practice, static analysis tools are only as good as the rules implemented, and are often language-dependent. As a result, software developers often use tools that actively validate a program as it’s running, through a variety of methods:
+
+- Dynamic Application Security Testing (DAST), which involves feeding data to a running application in order to “break” it in some way. Examples of this include fuzzing tools like Google’s [OSS-Fuzz](https://github.com/google/oss-fuzz) and web application penetration testing tools like [OWASP Zed Attack Proxy (ZAP)](https://www.zaproxy.org/).
+
+- Interactive Application Security Testing (IAST), which involves instrumenting the application to achieve better accuracy when detecting vulnerabilities. Examples of this include memory checkers like [Valgrind](https://valgrind.org/) and [AddressSanitizer](https://clang.llvm.org/docs/AddressSanitizer.html). 
+
+- Runtime Application Self-Protection (RASP), which involves instrumenting the application to detect and sometimes prevent attacks. An example of this is a web application firewall.
+
+It may be tempting to only consider execution-time security testing for freestanding applications, like a database or web server, but this would be incomplete. Just as unit tests exist to validate individual pieces of functionality, so too can the active testing techniques described above apply to individual components.
+
+We recommend the following:
+
+- Build (and meta-build) systems should improve support for plugging into fuzzing tools.
+
+- We should advocate for increased use of execution-time tools for open source projects.
+
+#### Reducing the Likelihood that a Vulnerability will be Introduced
+
+In an ideal world, all security defects would be identified immediately, enabling the software developer to fix them prior to ever being checked in. In the real world, security defects are found at all times throughout the lifecycle, but there are obvious advantages (risk, [cost](https://www.researchgate.net/publication/255965523_Integrating_Software_Assurance_into_the_Software_Development_Life_Cycle_SDLC), etc.) to identifying these as early as possible. This is often referred to as “shifting left”, based on a simplified view of the development lifecycle:
+
+<img title="" src="file:///home/luigi/Documenti/repository/wg-identifying-security-threats/publications/threats-risks-mitigations/v1.1/img/ReducingTheLikelihoodThatAVulnerabilityWillBeIntroduced.png" alt="Development lifecycle" data-align="left" width="617">
+
+In order to “shift left” as much as possible, software developers require access to high-quality guidance on how to address common classes of software vulnerabilities. While there are some high-quality sources available, including the [OWASP](https://owasp.org) [Cheat Sheet Series](https://cheatsheetseries.owasp.org/), few are comprehensive, curated, and kept up to date. 
+
+We recommend the following take place:
+
+- Provide developers with the [proper training](#Secure_Education) required to introduce and implement security in the technology stack being used at hand.
+
+- Provide developers with a curated list of security tools and related resources.
+
+- Provide developers with technical expertise when needed, particularly for critical projects.
+
+#### Reducing the Likelihood that a Vulnerability will be Exploited
+
+All software contains defects, and some of those defects have security implications. Over the past two decades, considerable work has gone into making it harder for these security defects to be successfully exploited by an attacker. Indeed, just as in the physical world, secure facilities have more than one “lock”, secure software systems have more than one control to prevent abuse. This “defense in depth” is a hallmark of secure software and can have a significant impact on the overall security and resilience of a system.
+
+In practice, this work usually takes the form of security controls implemented within the platform, runtime, or operating system that will identify when the application is doing something unexpected, and take some form of corrective action. Examples include:
+
+- An application-level firewall notices patterns associated with [Cross-Site Scripting (XSS)](https://owasp.org/www-community/attacks/xss/) or [SQL Injection](https://owasp.org/www-community/attacks/SQL_Injection), and blocks traffic from getting to the application.
+
+- [Address Space Layout Randomization](https://en.wikipedia.org/wiki/Address_space_layout_randomization) (ASLR) reduces the likelihood that a buffer overflow will escalate to arbitrary code execution, by placing shared libraries at random locations in memory.
+
+- Android applications request specific [permissions](https://source.android.com/devices/tech/config), which the user must grant during installation. (Access beyond those granted permissions will blocked by the operating system.)
+
+We recommend the following projects in this area:
+
+- Create guidance on how to leverage binary- and platform-level mitigations when building or deploying systems; this could include activities like enabling [Control Flow Integrity](https://clang.llvm.org/docs/ControlFlowIntegrity.html), avoiding [speculative execution](https://www.kernel.org/doc/html/latest/admin-guide/hw-vuln/spectre.html) attacks, and enforcing [address space layout randomization](https://en.wikipedia.org/wiki/Address_space_layout_randomization).
+
+- Analyze state-of-the-art techniques for binary hardening across different operating systems; start work on porting techniques where there are significant differences, if any.
+
+- Implement a “capabilities” model into one or more programming language runtimes.
+
+#### Fixing Vulnerabilities
+
+Once a vulnerability is identified and understood, the next obvious task is to fix it. In the ideal scenario, the project maintainer(s) will create a fix, test it, and publish a new release. Consumers (i.e., end-user and downstream package maintainers) will begin to use the new release, and the risk from the vulnerability would be mitigated. Unfortunately, there are often reasons why a prompt fix is not made:
+
+- The maintainer(s) may not be actively working on the project. For side projects (see Project Archetypes), maintainers may issue a fix, but only at their convenience.
+
+- The vulnerability may be categorized as low risk by the maintainer and perceived as not  being worth the effort to fix.
+
+- The vulnerability may require significant effort to fix, either due to complexity, compatibility issues with other components, or simply due to the amount of code that will need to be modified.
+
+In all of these cases, the larger community can put undue pressure on the project maintainer, who is often working on the project without compensation or may have other priorities. This can stand at odds with the consumers of that project, who are often employed: corporate developers who are being compensated to deliver a software product.
+
+It is important to note that the scenario above is not the only possible workflow:
+
+- The security researcher who found the vulnerability may contribute a code fix or may even join the project as a maintainer.
+
+- The “fix” may be incomplete, and its revelation may encourage attackers to target instances of the software that are now known to be vulnerable.
+
+- The security researcher may be unwilling to wait for a fix (particularly, a delayed one) and may therefore release the details publicly, including in some cases, a fully “weaponized” exploit.
+
+A reasonable metric around fixing vulnerabilities could be the elapsed time between when a vulnerability is first identified and when all users have updated the package to a fixed version (up to some threshold). However, it makes sense to split this metric into two separate parts:
+
+- The elapsed time between when a maintainer is notified and when a (correctly) fixed version is made available to consumers.
+
+- The elapsed time between when an updated version is available and when it becomes integrated into the downstream project.
+
+These metrics cannot be completely separated from one another; for one thing, many open source projects are both consumers of upstream packages and providers of packages to downstream consumers. Consider the following:
+
+<img src="img/VulnerabilitiesFixingFlow.png" title="" alt="Vulnerabilities fixing flow: Component A, B, C, D" width="634">
+
+In this scenario, think of yourself as a software developer using Component D. A vulnerability in Component A is found on January 1st and fixed ten days later. Downstream packages pick up the fix, one by one, until Component D issues a release in mid-March, which you notice and update at the end of March. Depending on the specifics of the vulnerability, you could have been affected by this publicly-known vulnerability for over two months, even though everyone was issuing fixes in a reasonable timeframe.
+
+Services like [Snyk](https://snyk.io/) and [Dependabot](https://github.blog/2019-05-23-introducing-new-ways-to-keep-your-code-secure/#automated-security-fixes-with-dependabot) (now part of GitHub) can significantly shorten these delay chains by automatically opening pull requests when vulnerabilities are fixed in dependencies. 
+
+We recommend the following:
+
+- Consideration should be given to funding high-impact projects that contain security vulnerabilities, possibly using a model similar to the [Core Infrastructure Initiative](https://coreinfrastructure.org).
+
+- Educational material should be created to advocate for projects to keep open source packages up to date, even in the absence of any known security flaws. (See Package Update for additional discussion of this topic.)
+
+- Bug bounties should be created or expanded to include rewards for (accepted) patches, under the assumption that a project maintainer will be more likely to accept a quality pull request than to take the time to investigate and create a fix themselves. (Google’s [patch rewards program](https://www.google.com/about/appsecurity/patch-rewards/) is a good example of this.)
+
+- A funded pool for software engineers could be created and directed at high-risk situations, such as creating fixes for vulnerabilities in critical projects.
+
+### Secrets Management
+
+Secrets Management is the practice of ensuring that credentials, tokens, cryptographic keys, and other sensitive material is not unexpectedly disclosed. This disclosure can occur in many scenarios, including:
+
+- [Secrets disclosed in source code when pushed to a source code repository](https://darkport.co.uk/blog/ahh-shhgit!/)
+
+- [Secrets disclosed in a published package](https://thenewstack.io/npm-password-resets-show-developers-need-better-security-practices/)
+
+- [Secrets disclosed in artifacts from a CI/CD pipeline](https://blog.travis-ci.com/2017-05-08-security-advisory)
+
+- [Secrets disclosed to unauthorized entities when a package is installed or is executing](https://www.zdnet.com/article/microsoft-spots-malicious-npm-package-stealing-data-from-unix-systems/)
+
+The effect of this disclosure is that very often, the secrets themselves can allow an attacker to masquerade as the victim (i.e., package author, publisher, or consumer).
+
+A number of mitigations exist that address this, including:
+
+- Tools, such as [truffleHog](https://github.com/dxa4481/truffleHog) and [shhgit](https://shhgit.darkport.co.uk/), identify secrets disclosed in source code, and can be used at appropriate points in the development lifecycle (i.e., pre-commit or pre-receive hooks).
+
+- Centralized (and well-protected) secret management services can be used to protect, rotate, and audit secrets more effectively.
+
+- Many CI/CD pipelines contain features that enable secrets to be inserted at runtime and protected from disclosure in logs or other artifacts.
+
+- Modern software deployment practices (e.g., micro-services, serverless architectures, containers, etc.) reduce the likelihood that an untrusted process will be able to read secrets from the target (though they do increase the attack surface area).
+
+We recommend the following projects to advance this area:
+
+- Expand secret detection capabilities in key systems, including source code repositories (e.g., GitHub, Gitlab, etc.) and package management systems (e.g., NPM, PyPI, etc.).
+
+- Reach out to the maintainer of [truffleHog](https://github.com/dxa4481/truffleHog) to help improve/extend the tool (there are currently 36 open pull requests), or rally around another tool to achieve the same ends: a high-quality secrets detector.
+
+- Create “play books” on how it can be fast and simple to use a secure secret management facility.
+
+- Include secrets management in key best practice documentation to developers.
+
+### Dependency Management
+
+When authoring a software project, it’s typical to bring in dependencies for functionality that you don’t want to implement yourself, and is done by both the developers who create final software products as well as the developers who create open source components.
+
+We discuss dependency management as part of Package Consumption, later in this document.
+
+### Local Testing
+
+Testing often takes place both locally (usually informally) and within a formal build pipeline. We discuss testing within the Security Validation section, later in this document.
+
+## External Contributions Phase
+
+<img src="img/ExternalContribution.png" title="" alt="External Contributions Phases" width="347">
+
+In this phase, we explore changes made to a software component by a loosely-affiliated individual, which is to say not by the main author or trusted maintainer. This contributor can be trustworthy or underhanded, and the contribution itself can be of any level of quality. Most open source projects have a way to validate and accept (or reject) these contributions, and the most common way is through a pull request.
+
+When a contribution is made, a maintainer usually needs to “sign off” on the change before merging it into an “official” code branch.
