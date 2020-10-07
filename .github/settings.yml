@@ -2,11 +2,11 @@ repository:
   # See https://developer.github.com/v3/repos/#edit for all available settings.
 
   # The name of the repository. Changing this will rename the repository
-  name: project-template
+  name: wg-identifying-security-threats
 
   # A short description of the repository that will show up on GitHub
-  description: OpenSSF Project Template
-
+  description: The purpose of the Identifying Security Threats working group is to enable stakeholders to have informed confidence in the security of open source projects. We do this by collecting, curating, and communicating relevant metrics and metadata from open source projects and the ecosystems of which they are a part.
+ 
   # A URL with more information about the repository
   homepage: https://openssf.org
 
