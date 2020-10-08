@@ -17,7 +17,10 @@ repository:
   # role. If there are questions, please contact one of the chairs.
 collaborators:
   # Chairs and Admin Help
-  - username: dlorenc
+  - username: scovetta
+    permission: admin
+    
+  - username: rhaning
     permission: admin
 
     # Contributors
