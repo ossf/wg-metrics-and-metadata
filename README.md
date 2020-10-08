@@ -1,34 +1,85 @@
-# OpenSSF Working Group: Identifying Security Threats in Open Source Projects
+# Identifying Security Threats in Open Source Projects
 
-Anyone is welcome to join our open discussions related to the group's mission and charter.
+The purpose of this working group is to enable stakeholders to have informed
+confidence in the security of open source projects. We do this by collecting,
+curating, and communicating relevant metrics and metadata from open source
+projects and the ecosystems of which they are a part.
 
-## Objective
+### Motivation
 
-Our objective is to enable stakeholders to have informed confidence in the security of open source projects. At the macro level, this includes identifying threats to the open source ecosystem and recommending practical mitigations. At the micro level, we will identify a set of key metrics and build tooling (API, web UI) to communicate those metrics to stakeholders, enabling those stakeholders to better understand the security posture of individual open source components
+Open source software is an essential part of modern software development, and
+of practically all technology solutions. Adoption of open source software has
+grown over the past two decades, powering everything from tiny "Internet of
+Things" devices to the most advanced supercomputers in the world. This has led
+to enormous productivity gains, allowing software engineers to focus more on
+solving business problems and less on creating and re-creating the same
+building blocks needed in many situations.
 
-## Vision
+With these benefits, however, comes some risk. Attackers frequently target
+open source projects and the ecosystems they are a part of in order to 
+compromise the organizations or users that use those projects. It's
+essential that we understand these threats and work to build defenses against
+them.
 
-Our vision is to improve the perception of security in open source software.
+### Objective
 
-## Governance
+Our objective is to enable stakeholders to have informed confidence in the
+security of open source projects. This includes identifying threats to the
+open source ecosystem and recommending practical mitigations. We will also
+identify a set of key metrics and build tooling to communicate those metrics
+to stakeholders, enabling a better understanding of the security posture of
+individual open source software components.
 
-The [CHARTER.md](CHARTER.md) outlines the scope and governance of our group activities.
+### Scope
 
-## Communications
+The scope of this working group includes "security", as opposed to privacy,
+resiliency, or other related areas.
 
-* [Meeting Minutes](https://docs.google.com/document/d/1AfI0S6VjBCO0ZkULCYZGHuzzW8TPqO3zYxRjzmKvUB4/edit?usp=sharing)
-* [Mailing list](https://lists.openssf.org/g/openssf-wg-security-threats). [Manage your subscriptions to Open SSF mailing lists](https://lists.openssf.org/g/main/subgroups).
+We also consider the broad open source ecosystem, as opposed to focusing
+exclusively on critical open source projects.
+
+Our work products will include analysis,
+[publications](https://github.com/ossf/wg-identifying-security-threats/blob/main/publications/threats-risks-mitigations/v1.1/Threats%2C%20Risks%2C%20and%20Mitigations%20in%20the%20Open%20Source%20Ecosystem%20-%20v1.1.pdf),
+[tools](https://github.com/ossf/Project-Security-Metrics), engagement, and
+advocacy with other groups inside and outside of the OpenSSF to advance the
+state of open source security.
+
+### Prior Work
+
+* [CII Best Practices Badge Program](https://bestpractices.coreinfrastructure.org/)
+* [CHAOSS](https://chaoss.community)
+
+## Get Involved
+
+* Project: [Security Metrics](https://github.com/ossf/Project-Security-Metrics)
+* [Mailing List](https://lists.openssf.org/g/openssf-wg-security-threats).
+  ([Manage your subscriptions to OpenSSF mailing lists](https://lists.openssf.org/g/main/subgroups))
+* [OpenSSF Community Calendar](https://calendar.google.com/calendar?cid=czYzdm9lZmhwNWk5cGZsdGI1cTY3bmdwZXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ)
+
+### Quick Start
+
+* Do you write code? We're looking for software developers to help build the
+  [Security Metrics](https://github.com/ossf/Project-Security-Metrics)
+  project. Contact [Michael Scovetta](mailto:michael.scovetta@microsoft.com)
+  to get started.
+* Interested in joining? E-mail
+  [Michael Scovetta](mailto:michael.scovetta@microsoft.com) for an invite to
+  the next working group meeting.
+* Want to contribute? Check out our
+  [open issues](https://github.com/ossf/wg-identifying-security-threats/issues).
 
 ## Meeting times
 
-This working group meets every other week, rotating between Monday and Wednesday mornings, Pacific time:
+* We meet every other week, alternating between Mondays and Wednesdays. See the
+  [OpenSSF Community Calendar](https://calendar.google.com/calendar?cid=czYzdm9lZmhwNWk5cGZsdGI1cTY3bmdwZXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ)
+  and e-mail [Michael Scovetta](mailto:michael.scovetta@microsoft.com) to get
+  an invite to the next meeting or the series.
+* [Meeting Minutes](https://docs.google.com/document/d/1AfI0S6VjBCO0ZkULCYZGHuzzW8TPqO3zYxRjzmKvUB4/edit?usp=sharing)
 
-* Wednesday, September 16, 2020 - 9:00-10:00 AM (PT)
-* Monday, September 28, 2020 - 8:00-9:00 AM (PT)
-* Wednesday, October 14, 2020 - 9:00-10:00 AM (PT)
-* Monday, October 26, 2020 - 8:00-9:00 AM (PT)
-* (and so on).
+## Governance
 
-The meetings appear on the [OpenSSF Community Calendar](https://calendar.google.com/calendar?cid=czYzdm9lZmhwNWk5cGZsdGI1cTY3bmdwZXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ).
+The [CHARTER.md](https://github.com/ossf/wg-identifying-security-threats/blob/main/CHARTER.md)
+outlines the scope and governance of our group activities.
 
-To receive an invite to the meeting series, please contact [Michael Scovetta](mailto:michael.scovetta@microsoft.com).
+* Lead: Michael Scovetta](mailto:michael.scovetta@microsoft.com)
+* Co-Lead: Jennifer Fernick
