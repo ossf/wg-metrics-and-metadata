@@ -33,10 +33,8 @@ individual open source software components.
 ### Scope
 
 The scope of this working group includes "security", as opposed to privacy,
-resiliency, or other related areas.
-
-We also consider the broad open source ecosystem, as opposed to focusing
-exclusively on critical open source projects.
+resiliency, or other related areas. We also consider the broad open source
+ecosystem, as opposed to focusing exclusively on critical open source projects.
 
 Our work products will include analysis,
 [publications](https://github.com/ossf/wg-identifying-security-threats/blob/main/publications/threats-risks-mitigations/v1.1/Threats%2C%20Risks%2C%20and%20Mitigations%20in%20the%20Open%20Source%20Ecosystem%20-%20v1.1.pdf),
@@ -49,7 +47,7 @@ state of open source security.
 * [CII Best Practices Badge Program](https://bestpractices.coreinfrastructure.org/)
 * [CHAOSS](https://chaoss.community)
 
-## Get Involved
+### Get Involved
 
 * Project: [Security Metrics](https://github.com/ossf/Project-Security-Metrics)
 * [Mailing List](https://lists.openssf.org/g/openssf-wg-security-threats).
@@ -68,7 +66,7 @@ state of open source security.
 * Want to contribute? Check out our
   [open issues](https://github.com/ossf/wg-identifying-security-threats/issues).
 
-## Meeting times
+### Meeting times
 
 * We meet every other week, alternating between Mondays and Wednesdays. See the
   [OpenSSF Community Calendar](https://calendar.google.com/calendar?cid=czYzdm9lZmhwNWk5cGZsdGI1cTY3bmdwZXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ)
@@ -76,10 +74,10 @@ state of open source security.
   an invite to the next meeting or the series.
 * [Meeting Minutes](https://docs.google.com/document/d/1AfI0S6VjBCO0ZkULCYZGHuzzW8TPqO3zYxRjzmKvUB4/edit?usp=sharing)
 
-## Governance
+### Governance
 
-The [CHARTER.md](https://github.com/ossf/wg-identifying-security-threats/blob/main/CHARTER.md)
-outlines the scope and governance of our group activities.
+The [CHARTER](https://github.com/ossf/wg-identifying-security-threats/blob/main/CHARTER.md)
+document outlines the scope and governance of our group activities.
 
-* Lead: Michael Scovetta](mailto:michael.scovetta@microsoft.com)
+* Lead: [Michael Scovetta](mailto:michael.scovetta@microsoft.com)
 * Co-Lead: Jennifer Fernick
