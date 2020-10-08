@@ -1,10 +1,9 @@
 # Identifying Security Threats in Open Source Projects
 
-The purpose of the Identifying Security Threats working group is to enable
-stakeholders to have informed confidence in the security of open source
-projects. We do this by collecting, curating, and communicating relevant
-metrics and metadata from open source projects and the ecosystems of which
-they are a part.
+The purpose of this working group is to enable stakeholders to have informed
+confidence in the security of open source projects. We do this by collecting,
+curating, and communicating relevant metrics and metadata from open source
+projects and the ecosystems of which they are a part.
 
 ### Motivation
 
@@ -71,8 +70,10 @@ state of open source security.
 
 ## Meeting times
 
-* Every other week, alternating between Mondays and Wednesdays.
+* We meet every other week, alternating between Mondays and Wednesdays. See the
   [OpenSSF Community Calendar](https://calendar.google.com/calendar?cid=czYzdm9lZmhwNWk5cGZsdGI1cTY3bmdwZXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ)
+  and e-mail [Michael Scovetta](mailto:michael.scovetta@microsoft.com) to get
+  an invite to the next meeting or the series.
 * [Meeting Minutes](https://docs.google.com/document/d/1AfI0S6VjBCO0ZkULCYZGHuzzW8TPqO3zYxRjzmKvUB4/edit?usp=sharing)
 
 ## Governance
