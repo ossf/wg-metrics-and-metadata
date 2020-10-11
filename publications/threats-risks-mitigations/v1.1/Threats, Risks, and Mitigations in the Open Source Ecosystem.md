@@ -874,7 +874,7 @@ On the other side, the cost to determine if a software product were indeed vulne
 
 One way to potentially improve this would be to *attempt* an automated upgrade, and only fall back to the graph described above if it failed:
 
-<img src="file:///home/luigi/Documenti/repository/wg-identifying-security-threats/publications/threats-risks-mitigations/v1.1/img/AttackSurface2.png" title="" alt="" width="664">
+<img src="img/AttackSurface2.png" title="" alt="" width="664">
 
 If we assume the cost to try an automated upgrade is \$5, and it works 80% of the time, it would reduce the cost of the left branch from \$100 to \$24 (\$5 * 0.80 + \$100 * 0.20), the middle from \$333 to \$71 (\$5 * 0.80 + \$1,000 * 0.20 * 0.33), and the right from \$53 to \$15 (\$5 * 0.80 + (\$20 + \$100 * 0.33) * 0.20).
 
