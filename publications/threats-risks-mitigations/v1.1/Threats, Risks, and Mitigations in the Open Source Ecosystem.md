@@ -411,9 +411,9 @@ When a contribution is made, a maintainer usually needs to “sign off” on the
 
 In this phase, we have the following threat actors:
 
-- An attacker trying to “sneak” a malicious change into a code base.
+- [An attacker trying to “sneak” a malicious change into a code base.](#Preventing-Malicious-Changes-from-Contributors)
 
-- An attacker can attempt to undermine the pull request validation infrastructure.
+- [An attacker can attempt to undermine the pull request validation infrastructure.](#Undermining-Automated-Validation-on-Pull-Requests)
 
 ### Preventing Malicious Changes from Contributors
 
@@ -520,7 +520,7 @@ Most open source projects accept contribution requests from anyone in the form o
   | l   | e   | f   | t    | p   | a   | d   |
   |     |     |     | *vs* |     |     |     |
   | ⅼ   | е   | f   | t    | р   | а   | ⅾ   |
-
+  
   *In the bottom table, six of the seven characters are from “non-ASCII” character sets defined by Unicode.*
 
 - **Large Diffs.** GitHub does not show large diffs by default, and instead shows a “load diff” link, which can be easy to miss, [especially in lock files](https://snyk.io/blog/why-npm-lockfiles-can-be-a-security-blindspot-for-injecting-malicious-modules/).
@@ -571,14 +571,361 @@ From a consumer’s perspective, things begin when they are searching for a pack
 
 Threats that apply to package selection include:
 
-- An attacker could compromise a maintainer’s credentials and publish malicious packages.
+- [An attacker could compromise a maintainer’s credentials and publish malicious packages.](#Account-Hijacking)
 
-- An attacker could subvert the package selection client software.
+- [An attacker could subvert the package selection client software.](#Compromised-Package-Repository-Client-Software)
 
-- An attacker could compromise the website that displays the package listings.
+- [An attacker could compromise the website that displays the package listings.](#Compromised-Package-Repository-Websites)
 
-- An attacker could create a new package with a name similar to an existing package (i.e., typo-squatting).
+- [An attacker could create a new package with a name similar to an existing package (i.e., typo-squatting).](#Typo-Squatting-Attacks)
 
-- An attacker could modify an existing package within a package management repository.
+- [An attacker could modify an existing package within a package management repository.](#Compromised-Package-Repository-Packages)
 
-- An attacker could remove a component from a package management repository.
+- [An attacker could remove a component from a package management repository.](#Package-Removal)
+
+#### Account Hijacking
+
+Open source software developers nearly always publish source code and packages to centralized systems, such as GitHub and NPM. These systems typically require credentials in order to perform certain tasks, like publishing a new release, and attackers have frequently targeted open source developers as a vector to publish malicious code.
+
+To combat this, practically all source code repositories and package management systems have implemented some form of multi-factor authentication when logging in. Unfortunately, many, if not most, developers do not take advantage of this. In addition, CI/CD pipelines can make multi-factor authentication difficult or impossible, and so alternatives like IP restricted limited-scope tokens are used. These are not ubiquitous, and as a result, attackers continue to hijack accounts and publish malicious code on a regular basis.
+
+To combat this, we recommend the following:
+
+- Each package management system should expose a flag (and related information) indicating whether a package was published under an account that used a strong authentication method. This should be announced far in advance, to give users ample opportunity to enable this.
+
+- Each package management client should expose a flag that gives package consumers control over whether or not they allow packages that do not use a strong authentication method (e.g., `--flag-strong-auth=[silent|warn|fail]`).
+
+- An analysis should be conducted of the top package management systems, documenting best practices, and sharing them with the broader package management community.
+
+#### Compromised Package Repository Client Software
+
+Modern CI/CD systems partially mitigate the threat of compromised client software, in that official builds are performed in a more trusted environment than the developer’s local workstation. Those builds would (presumably) select packages as expected.
+
+#### Compromised Package Repository Websites
+
+Most (if not all) package repositories can be browsed through a website (e.g., [npmjs.com](https://npmjs.com), [nuget.org](https://nuget.org), [pypi.org](https://pypi.org)). If these were to be compromised by an attacker, packages and metadata could be changed that would steer users to malicious packages that appeared to be authentic. This threat is mitigated (somewhat) when the organizations that manage these resources are sufficiently resourced to maintain a strong security posture.
+
+#### Typo-Squatting Attacks
+
+Typo-squatting occurs when an attacker creates a resource with a name closely resembling an existing name, specifically with the intent of having victims accidentally type the wrong name and access the attacker’s resource. In the context of package management systems, these resources are typically package names (e.g., `djamgo` masquerading for `django`), and they occasionally cross package management systems (`python-dateutil` being available on PyPI; `python3-dateutil` is the name of the Ubuntu package).
+
+Typo-squatting can be largely mitigated by validating project names when they are published, using indicators like glyph similarity, keyboard distance, edit distance, and related metrics, and taking action when a package’s name is too close to the name of an existing package. Simple solutions like comparing the number of installations of a package may also provide value (e.g., *I see you’re trying to install **momenr**, which has had 4 installations. Did you mean **moment**, which has had 40 million installations?*).
+
+We recommend the following:
+
+- All package management systems should implement measures to detect or prevent package typo-squatting, to reduce the likelihood that an attacker will be able to publish a package that masquerades a different, authentic package. This information could either be actioned centrally and/or be conveyed to the package consumer at selection time.
+
+#### Compromised Package Repository Packages
+
+If an attacker were able to compromise a package repository’s storage or distribution system, it would enable them to replace an existing package with a malicious version. Since in most cases, trust is anchored to the repository itself, victims who consume the malicious package would have no way of detecting this.
+
+Certain package management systems (e.g. [Ubuntu PPAs](https://help.launchpad.net/Packaging/PPA/InstallingSoftware), [NuGet Package Signing](https://docs.microsoft.com/en-us/nuget/create-packages/sign-a-package)) provide package signing that roots run at least partially to the package author or maintainer, rather than the repository. Others provide [repository signing](https://devblogs.microsoft.com/nuget/introducing-repository-signatures/) that mitigates the risk of a mirror being compromised. The Go ecosystem uses a [notary mechanism](https://go.googlesource.com/proposal/+/master/design/25530-sumdb.md) for ensuring that cryptographic checksums of modules do not change after they are initially published.
+
+#### Package Removal
+
+In addition to being immutable, many software developers generally assume that packages will always be available. Even allowing for periodic network and infrastructure outages, often little consideration is given to a scenario where a maintainer removes a package from a repository.
+
+This became a problem in March 2016 when the author of 273 NPM packages [removed them all](https://kodfabrik.com/journal/i-ve-just-liberated-my-modules) after a legal/trademark argument. As a result, any build that used one those packages (and did not have a cached copy available) began to fail.
+
+A related threat would occur if only certain versions were removed, requiring consumers to downgrade to older, less secure versions. One possible scenario is that an intellectual property claim could be made against only certain versions of a package.
+
+If a package is removed entirely, and the package name then becomes available for others to register, an attacker would be able to take advantage of this. Similar to typo-squatting, this would be analogous to forgetting to renew a domain name registration and having a domain squatter take it over and use it to distribute malware.
+
+We recommend the following:
+
+- The scope of this problem should be researched, meaning, for each of the major package managers, what is the process for un-publishing a package? How many packages are un-published, and how many installations were they associated with? How many of those were taken down for a non-security reason? When packages are delisted, do the names become available for others to register?
+
+- Each package management system should clearly describe its principles and process for package removal.
+
+### Package Installation
+
+The package installation process usually includes a few different steps, and starts once a package is selected:
+
+- Retrieving and processing metadata about the location of the package.
+
+- Retrieving the actual package contents.
+
+- Validating that the package contents have not been tampered with.
+
+- Extracting those contents into a location on the local file system.
+
+In many cases, an additional step is added:
+
+- Executing an installation script included within the package.
+
+Each of these steps can be subverted in different ways:
+
+- [Network attacks on package installation](#Network-Attacks-on-Package-Installation)
+
+- [Local attacks on the build system configuration](#Local-Attacks-on-the-Build-System-Configuration)
+
+- [Malicious installation scripts](#Malicious-Installation-Scripts)
+
+- [Installation of opaque binaries](#Installation-of-Opaque-Binaries)
+
+#### Network Attacks on Package Installation
+
+Network-layer attacks can modify metadata and package contents while in transit to the consumer. The nearly universal use of TLS significantly reduces this risk, and to a lesser extent, so does the use of private package repositories. Many package management clients offer the ability for developers to disable certificate checking (e.g., [NPM](https://docs.npmjs.com/misc/config#strict-sslhttps://docs.npmjs.com/misc/config#strict-ssl), [PyPI](https://pip.pypa.io/en/stable/reference/pip/#cmdoption-trusted-host)), but doing so is [generally discouraged](https://arxiv.org/pdf/1709.09970.pdf) on [Stack Overflow](https://stackoverflow.com) and other forums.
+
+Network-layer attacks may also pertain to private package repositories, which could be configured without TLS under the (mistaken) belief that a private network is always secure.
+
+#### Local Attacks on the Build System Configuration
+
+An attacker could compromise some part of a consumer’s system; for example, an attacker who is able to modify an user’s .npmrc file would be able to point the user to an attacker-controlled registry and deliver malicious content in response to any request. Such an attack would be similar to any other local attack, as described here.
+
+We recommend mitigating this (partially, for certain types of resources) by:
+
+- Encouraging developers to use scoped tokens that only grant access to a minimal set of functions, or tokens that were only usable from certain locations.
+
+#### Malicious Installation Scripts
+
+Many packages require special actions to take place as part of installation. These are often codified in an installation script, specified directly in a manifest (as in the case for NPM modules) or as a separate, optional file (in the case of NuGet). Sometimes, the manifest file itself is executable (in the case of Python).
+
+In all these cases, installation is the first opportunity for a malicious package to execute. This often occurs on build servers, and sometimes, on trusted infrastructure. Attackers sometimes target installation files as a simple way to exfiltrate data, as an attacker did in the NPM [1337qq-js](https://www.zdnet.com/article/microsoft-spots-malicious-npm-package-stealing-data-from-unix-systems/) package.
+
+The [Chocolatey](https://chocolatey.org/) package manager takes an interesting [approach](https://chocolatey.org/docs/security), including a human review of every package published (except for a set of “trusted” package publishers). Unfortunately, it’s hard to see how this can scale to the [thousands](http://www.modulecounts.com/) of packages that are published each day.
+
+To defend against this, we recommend:
+
+- A combination of static and dynamic analysis should take place within the publishing pipeline, analyzing installation script code and behavior to discover unwanted activity. This analysis could use maintainer reputation as an input and could naturally be extended to include the entire package (not just the installation script).
+
+- Communication should regularly occur between security teams at each of the major package management systems, communicating when new patterns have been noticed or reported.
+
+#### Installation of Opaque Binaries
+
+Most consumers assume that when a package is selected and installed, the contents are what they expect. For some types of packages, this is easy to validate. The source code repository and the package contents are often at least similar if not identical. In other cases, such as [Python wheels](https://www.python.org/dev/peps/pep-0427/), NuGet packages, or Ubuntu PPAs, the packages that are delivered are often compiled, platform-specific binaries. For the purposes of this section, we will consider packages that contain minified or obfuscated code to be similar to binary packages.
+
+Binaries are distributed for a few general reasons:
+
+- The package may need to be compiled, using a toolchain, configuration, or dependencies that the downstream developer may not have available at installation time.
+
+- Copying a pre-built binary will almost always be significantly faster than compiling it from source code.
+
+- The developer may wish to obfuscate their package to deter developers from examining it. (For example, not all packages are distributed under an open source license.)
+
+Binary packages are inherently riskier than packages containing readable source code because it is significantly harder to reason over them. The only feasible way to validate that a binary came from a purported source code distribution would be to perform a build and check to see if the output was the same. Due to the thousands of different build environments and configuration steps, it is infeasible to do this in a fully automated way. As a result, most consumers are “forced” to place a great deal of trust that the binaries they obtain deserve that trust.
+
+To be clear, the threat associated with this is that a maintainer (either malicious to begin with, or benevolent but with compromised credentials) will publish a version of a package that contains malicious code that was never included in the source code repository.
+
+This threat can be mitigated by requiring reproducibility as part of a publishing process. This could take the form of a process by which the maintainer configures a trusted, well-architected continuous integration system to create a package, with the output then being published directly once the build is complete and validated. Essentially, there would be no “upload package” functionality for the maintainer. This doesn’t fully mitigate the risk; after all, the build script could pull in and insert malicious code at that stage, but in general, it would lead to increased transparency, and accordingly, trust.
+
+However, compilers are free to make certain decisions non-deterministically (e.g., changing the ordering of functions within a binary, selecting variable names during minification, selecting different assembly instructions that achieve the same effect, adding dynamic elements such as a timestamp into the executable). In order to verify reproducibility, some of these settings must be [pre-configured](https://blog.conan.io/2019/09/02/Deterministic-builds-with-C-C++.html).
+
+We therefore recommend the following:
+
+- Consideration should be given to the [Reproducible Builds](https://reproducible-builds.org/) project and whether it can be used as a model for expanding reproducibility across the open source ecosystem.
+
+- Package management systems should consider tighter integration with CI/CD publishing, encouraging publishers to take part in it, and providing a metadata flag to consumers when packages have been built by a trusted entity.
+
+### Package Use
+
+As the name suggests, “package use” occurs when a software product calls a part of an external package to perform some function.
+
+There are a few different threats that apply uniquely to this area:
+
+- [Malicious Packages](#Malicious-Packages)
+
+- [Unconstrained Packages](#Unconstrained-Packages)
+
+- [Dynamic Packages](#Dynamic-Packages)
+
+#### Malicious Packages
+
+In addition to installation scripts, the projects themselves may be malicious in nature. This can be particularly challenging to detect when the source code isn’t readily available, either because it’s published as a binary (see above) or because the installation takes place within a larger system. For example, extensions installed into Visual Studio Code, Jenkins, WordPress, or even GitHub run arbitrary code against the developer’s software, and the consumer seldom goes through the trouble to find and validate the source. Since these are often “one-click” installs, there is essentially no barrier to entry.
+
+These threats can be mitigated to a degree through tooling (see [Identifying Security Vulnerabilities in Source Code](#Identifying-Security-Vulnerabilities-in-Source-Code)), and manual introspection (albeit at a higher cost). Other potential mitigations include community scoring based on reputation, transparency around what the project is capable of doing, and rapid investigation (including variant analysis) and removal when malware is found. To be clear, traditional anti-malware solutions are typically insufficient to address this risk.
+
+To address this threat, we recommend the following:
+
+- Package management systems should conduct automated analyses when packages are published; these analyses should include detection for malicious code patterns.
+
+#### Unconstrained Packages
+
+An unconstrained package is one that can perform more than what the consumer expects it to do. Typically, packages execute with the same permissions as the calling function. (We are referring to typical in-process calls, and not inter-process or network-based calls.) For example, the purpose of left-pad is to pad a string out to a fixed length. It does not need to establish a network connection or write to disk, but there’s nothing stopping it from doing so.
+
+Unconstrained packages are risky for two main reasons:
+
+- A vulnerability in the package could be exploited to take advantage of those additional permissions available, but not ordinarily used.
+
+- An attacker who can compromise the package could publish an updated version that performs additional, unexpected actions.
+
+There have been a few noteworthy attempts to mitigate this risk, including [Android Permissions](https://developer.android.com/guide/topics/permissions/overview), [iOS Permissions](https://developer.apple.com/design/human-interface-guidelines/ios/app-architecture/requesting-permission/), [Windows App Permissions](https://support.microsoft.com/en-us/help/10557/windows-10-app-permissions), and OpenBSD’s [pledge](https://man.openbsd.org/pledge.2) system call. There have also been attempts to add a capabilities model within specific programming languages, including [Java](https://docs.oracle.com/en/java/javase/14/security/permissions-jdk1.html) and [.NET](https://docs.microsoft.com/en-us/dotnet/framework/misc/code-access-security), as well automated analyses like the [NPM Security Insights API](https://blog.npmjs.org/post/188234999089/new-security-insights-api-sneak-peek).
+
+From a consumer’s perspective, a reasonable interface might be to include the required permissions within the package manifest, to be examined by the consumer during selection and approved during installation. If that package depends on another package, the full set of permissions would have to propagate all the way back to the consumer.
+
+From a package maintainer’s perspective, tooling would need to exist to calculate the minimum required permissions and create the associated manifest attributes.
+
+From a runtime environment, certain calls would need to be brokered to ensure that all calls respect the approved permissions.
+
+This could of course become more complex. If component A depends on a small subset of component B that doesn’t require any special permission, but other parts of B *do* require special permission, the maintainer for project A should be able to specify that in the manifest, and consumers would be protected from B using those permissions not explicitly assigned.
+
+We recommend the following:
+
+- There should be continued research toward a package-level capabilities system, ultimately integrated into the various runtime environments.
+
+#### Dynamic Packages
+
+Dynamic packages are those that include logic that is not defined within the package contents. For example, a package could download code during installation or at runtime, calling those functions once they are accessible. Dynamic packages present a significant risk for two reasons:
+
+- It can be exceedingly difficult to gain assurance, since the remote resource could change at any point in the future.
+
+- If the remote resource were to become unavailable, at least a portion of a component that references it would fail in some way.
+
+JavaScript uses dynamic packages extensively, whenever a remote `<script>` tag is used to include a remote resource. The associated risk can be mitigated through [Subresource Integrity](https://en.wikipedia.org/wiki/Subresource_Integrity) attributes (which will cause the browser to fail to load the component if the cryptographic checksum isn’t an expected value), with fallback to a local resource.
+
+Other languages use dynamic code when loading shared libraries (e.g., [LoadLibrary or dlopen](https://en.wikipedia.org/wiki/Dynamic_loading)), though these assume the library will at least be present locally.
+
+Another common anti-pattern is the use of **curl | sh**, or equivalents, which retrieve a remote file and immediately execute it. (There is some [disagreement](https://www.arp242.net/curl-to-sh.html) on whether this is fundamentally different from cloning a repository and immediately running a build command.) In any case, there is substantial risk in running arbitrary code that you do not have even the opportunity to inspect. This attack can be much more dangerous when paired with unprotected transport encryption (i.e. “http” instead of “https”), as a network-based attacker would be able to modify the content and execute arbitrary code.
+
+These threats can be mitigated in a few ways:
+
+- Establish package trust; only those packages with a high trust level would be granted permission to run dynamic code.
+
+- Improve tools that search for dynamic code constructs to find additional varieties and provide that feedback to consumers prior to execution. (This is related to the capabilities discussion under [Unconstrained Packages](#Unconstrained-Packages).)
+
+### Package Update
+
+Each day, thousands of new package versions are released, and each day, millions of consumers perform an update. Package updates provide new functionality, fixes for bugs, and sometimes, patches for security vulnerabilities.
+
+Most package management systems provide easy-to-use update mechanisms, such as `apt-get upgrade` or `npm update`. Some offer additional information on packages, such as deprecation status or a list of known security vulnerabilities.
+
+The package update process is almost identical to the installation process (in fact, an update is often a removal followed by an installation), so the same threats that apply there will apply here. In addition to those threats, package updates have two additional scenarios that introduce risk:
+
+**Choosing to not take an update.** There are several reasons why failing to update a software component can introduce risk:
+
+- The update could address a known security vulnerability.
+
+- The update could address an unknown security vulnerability. There can be many reasons for this, such as when a maintainer notices and silently fixes a security issue, or removes or disables a piece of code that happened to contain a vulnerability. This includes updates to anything in the component’s dependency graph, as well.
+
+- The updated component could be more resilient to security compromise, such as through improved binary hardening or an improved build toolchain.
+
+- Failing to take regular updates can also increase technical debt; meaning that a future update through many versions could be more “painful” than if it were taken incrementally. (To be fair, this point assumes that an update will be eventually be required.)
+
+**Choosing to take an update.** Ironically, there is also risk in updating software components:
+
+- The update could contain new code, which could contain new vulnerabilities. Indeed, older versions of the component have, by definition, been available for longer, for security researchers to examine.
+
+- The update could contain a “broken” or partial fix that might draw an attacker’s attention.
+
+- The update could be malicious, due to, for example, a compromised package manager account. This can be partially mitigated by waiting a brief period, such as 30 days, after a new version is released before using it.
+
+The “net” of this is that context and risk tolerance is important when choosing when to take software updates.
+
+We therefore recommend the following:
+
+- Research should be performed to validate the underlying assumptions made in this section; specifically:
+  
+  - What is the tradeoff between non-security bugs and the age of a release? How likely will new bugs be introduced?
+  
+  - What is the tradeoff between security bugs and the age of the release? How likely will version N be more secure than version N-1?
+  
+  - How long after a release is made are vulnerabilities or malicious updates typically identified?
+  
+  - How can this information be combined to optimize both security and operational risk, and how can that be expressed as a policy recommendation?
+
+- Educational materials should be produced and socialized with the open source community describing the value of keeping dependencies up to date.
+
+## Vulnerability Reporting & Security Response Phase
+
+Once a vulnerability is reported to a project maintainer, they must decide what to do, and while “fix the vulnerability” is often the action taken, there are instances where this isn’t done. Some reasons why a maintainer would not necessarily fix a vulnerability include:
+
+- The “maintainer” does not want to continue working on the project.
+
+- The maintainer does not think the vulnerability is important enough to fix.
+
+- The maintainer does not understand the vulnerability as reported.
+
+- The vulnerability would require extensive re-architecture to address.
+
+- The vulnerability is by design (e.g., [WebGoat](https://owasp.org/www-project-webgoat/)).
+
+- The maintainer does not want the existence of the vulnerability disclosed.
+
+This last point could be especially troublesome, and though more typical in a commercial setting, open source projects are maintained by humans, and humans sometimes resort to legal threats in an attempt to make problems “go away”. (To be fair, the author of this document is not aware of any instances where the maintainer of an open source project has threatened legal action to “silence” a security researcher, there’s no reason to think this would *never* occur.)
+
+From the consumer’s perspective, these lead to the following risks:
+
+- Consumers often lack information on the degree to which their use of a vulnerable component affects them.
+
+- Consumers will mistakenly assume that a project will issue security fixes if a vulnerability is reported.
+
+- A security researcher is unable to contact a project maintainer to privately report a vulnerability.
+
+### Identifying Vulnerabilities on the Attack Surface
+
+Suppose a software product is using an open source component for padding strings, and that that component contains a security vulnerability. Is the software product vulnerable as a result? The answer is, unfortunately, *<u>it depends</u>*. This is because when you consume a component, you usually only use a small part of the functionality it implements. If a vulnerability were to only affect those parts of the component that aren’t used, then there wouldn’t be a way to exploit it, and you’d be safe to use it, at least for the time being.
+
+<img src="img/AttackSurface.png" title="" alt="Identifying Vulnerabilities on the Attack Surface" width="636">
+
+The above graph shows various options for how a consumer can respond to a vulnerability in an open source component. If we make some broad assumptions:
+
+- The cost to upgrade a component is $100.
+- The cost to respond if the software product is vulnerable is $1,000.
+- The cost to determine if the software product is vulnerable is $20.
+- The likelihood that the vulnerability will affect the software product is 33%.
+
+Then the cost of the left branch is \$100, the middle branch is \$333 (\$1,000 * 0.33), and the right branch is \$53 (\$20 + \$100 * 0.33).
+
+It is important to optimize here because we are not expecting to do this once, but rather hundreds or thousands of times per year within a large organization.
+
+So, what can one do? Clearly, if the cost to upgrade can be reduced enough, it is possible that the optimal path would always be to just do that. In fact, tools like [Dependabot](https://github.blog/2019-01-31-keep-your-dependencies-secure-and-up-to-date-with-github-and-dependabot/) (GitHub) will watch open source projects and submit pull requests automatically to upgrade vulnerable components. (These tools can be used for proprietary source code, as well.)
+
+On the other side, the cost to determine if a software product were indeed vulnerable due to a known-vulnerable component could be reduced. The challenge here is that most public vulnerability reports do not contain enough information to make this determination; instead, it’s usually left as an “exercise for the reader”.
+
+One way to potentially improve this would be to *attempt* an automated upgrade, and only fall back to the graph described above if it failed:
+
+<img src="file:///home/luigi/Documenti/repository/wg-identifying-security-threats/publications/threats-risks-mitigations/v1.1/img/AttackSurface2.png" title="" alt="" width="664">
+
+If we assume the cost to try an automated upgrade is \$5, and it works 80% of the time, it would reduce the cost of the left branch from \$100 to \$24 (\$5 * 0.80 + \$100 * 0.20), the middle from \$333 to \$71 (\$5 * 0.80 + \$1,000 * 0.20 * 0.33), and the right from \$53 to \$15 (\$5 * 0.80 + (\$20 + \$100 * 0.33) * 0.20).
+
+*Again, the numbers used here are rough assumptions.*
+
+We recommend the following:
+
+- Source code repositories should improve support for issuing pull requests for upgrading vulnerable packages, making this enabled by default and covering additional package types, including non-packaged files copied from other repositories (i.e., “jquery.js” in a /vendor directory).
+
+- The industry should improve public vulnerability reports, including more information to enable consumers to understand whether their software product is vulnerable when using the component. For example, one could use [CodeQL](https://securitylab.github.com/tools/codeql) to determine whether there is a call path between the software product and the vulnerable function or construct in the affected component.
+
+### Security Response Expectations
+
+It is important that project maintainers articulate their commitment to responding to security vulnerabilities if and when they are found. This is an essential aspect of the project archetype, and should be included in any artifacts produced around it. 
+
+#### Routing Vulnerability Reports
+
+When a security researcher identifies a vulnerability in an open source project, they have a few different places that they could report it, including:
+
+- (Good) The project maintainers directly, through a private channel
+
+- (Good) A mediator, such as [HackerOne](https://hackerone.com), possibly through a bug bounty program
+
+- (Good) [CERT](https://www.us-cert.gov/) or another industry/government organization
+
+- (Bad) The project author directly, through a public GitHub issue
+
+- (Bad) The public community (“dropping a 0-day”)
+
+- (Bad) A criminal organization
+
+As a best practice, open source projects should clearly state how they prefer to receive vulnerability reports. While there are no universally-followed standards, GitHub implements basic support for a [SECURITY.md](https://help.github.com/en/github/managing-security-vulnerabilities/adding-a-security-policy-to-your-repository) file. These files are meant to be read by a human, which can be costly at scale and often missed or ignored.
+
+We recommend the following:
+
+- Establish a “machine-readable” schema for security reporting and build out a few common scenarios, and advocate for their use in appropriate channels.
+
+- Create a “help line” for open source security reporting (possibly using an automated bot for “first-tier” help), with fallback to someone who can help a finder locate the appropriate contact. (This would be similar to the [HackerOne Disclosure Assistance](https://hackerone.com/disclosure-assistance) program.)
+
+#### Security Fixes
+
+Once a security fix is made, the project issues an updated release (or multiple releases, in some cases) and discloses the existence of the vulnerability. At that point, it is up to the consumer to ingest the updated package to prevent the final software product from remaining vulnerable.
+
+Of course, security fixes are not always released in a timely manner, and sometimes, never at all. This is where disclosure practices come into play; if a maintainer fails to address a fix that a security researcher finds, what should that researcher do?
+
+- Remain quiet, potentially forever?
+
+- Privately fork the project, and submit a patch back to the maintainer?
+
+- Publicly fork the project and attempt to fix the vulnerability?
+
+- Publicly disclose the vulnerability (presumably to pressure the maintainer to issue a fix)?
+
+There are reasonable arguments to be made on all sides of disclosure practices; we won’t go into depth in this document, but the Electronic Frontier Foundation has an [excellent writeup](https://www.eff.org/issues/coders/vulnerability-reporting-faq) of the challenges and nuances involved, as does [CERT](https://vuls.cert.org/confluence/display/CVD/The+CERT+Guide+to+Coordinated+Vulnerability+Disclosure).
