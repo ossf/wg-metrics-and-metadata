@@ -79,19 +79,19 @@ Thank you to everyone who reviewed, commented, and provided content for this doc
 
 ## Table of Contents
 
-|                                                               |     |
-| ------------------------------------------------------------- | ---:|
-| [Introduction](#Introduction)                                 | 1   |
-| [Threats & Risks](#Threats-&-Risks)                           | 5   |
-| [Ideation / Concept Phase](#Ideation-/-Concept-Phase)         | 5   |
-| [Local Development Phase](#Local-Development-Phase)           | 8   |
-| [External Contributions Phase](#External-Contributions-Phase) | 17  |
-| [Central Infrastructure Phase](#Central-Infrastructure-Phase) | 19  |
-| [Package Consumption Phase](#Package-Consumption-Phase)       | 23  |
-| Vulnerability Reporting & Security Response Phase             | 34  |
-| Cross-Cutting Activities                                      | 38  |
-| Conclusion                                                    | 47  |
-| Appendix                                                      | 48  |
+|                                                                                                         |     |
+| ------------------------------------------------------------------------------------------------------- | ---:|
+| [Introduction](#Introduction)                                                                           | 1   |
+| [Threats & Risks](#Threats-&-Risks)                                                                     | 5   |
+| [Ideation / Concept Phase](#Ideation-/-Concept-Phase)                                                   | 5   |
+| [Local Development Phase](#Local-Development-Phase)                                                     | 8   |
+| [External Contributions Phase](#External-Contributions-Phase)                                           | 17  |
+| [Central Infrastructure Phase](#Central-Infrastructure-Phase)                                           | 19  |
+| [Package Consumption Phase](#Package-Consumption-Phase)                                                 | 23  |
+| [Vulnerability Reporting & Security Response Phase](#Vulnerability-Reporting-&-Security-Response-Phase) | 34  |
+| [Cross-Cutting Activities](#Cross-Cutting-Tasks)                                                        | 38  |
+| [Conclusion](#Conclusion)                                                                               | 47  |
+| [Appendix](#Appendix)                                                                                   | 48  |
 
 # Threats & Risks
 
@@ -317,7 +317,7 @@ We recommend the following projects in this area:
 
 Once a vulnerability is identified and understood, the next obvious task is to fix it. In the ideal scenario, the project maintainer(s) will create a fix, test it, and publish a new release. Consumers (i.e., end-user and downstream package maintainers) will begin to use the new release, and the risk from the vulnerability would be mitigated. Unfortunately, there are often reasons why a prompt fix is not made:
 
-- The maintainer(s) may not be actively working on the project. For side projects (see Project Archetypes), maintainers may issue a fix, but only at their convenience.
+- The maintainer(s) may not be actively working on the project. For side projects (see [Project Archetypes](#Project-Archetypes)), maintainers may issue a fix, but only at their convenience.
 
 - The vulnerability may be categorized as low risk by the maintainer and perceived as not  being worth the effort to fix.
 
@@ -929,3 +929,329 @@ Of course, security fixes are not always released in a timely manner, and someti
 - Publicly disclose the vulnerability (presumably to pressure the maintainer to issue a fix)?
 
 There are reasonable arguments to be made on all sides of disclosure practices; we won’t go into depth in this document, but the Electronic Frontier Foundation has an [excellent writeup](https://www.eff.org/issues/coders/vulnerability-reporting-faq) of the challenges and nuances involved, as does [CERT](https://vuls.cert.org/confluence/display/CVD/The+CERT+Guide+to+Coordinated+Vulnerability+Disclosure).
+
+## Cross-Cutting Tasks
+
+### Development Process Integrity
+
+The software development process is a lot like baking a cake:
+
+- A lot of work goes into design, build, and testing.
+
+- Most people only see (eat) the final product.
+
+- It is difficult (or impossible) to reverse engineer the processes used, if you only have access to the final deliverable.
+
+In the context of software development, it’s often the case that consumers have only public artifacts to use to assess quality and trustworthiness: source code, public issues, and other content released by the maintainers or by other consumers.
+
+To borrow a similar analogy, the food supply chain requires the collaboration of hundreds of suppliers to bring a finished meal to a restaurant table. A breakdown at any of these points can have terrible consequences, as frequent [E. coli](https://www.google.com/search?q=e+coli+outbreak&tbm=nws) and [Salmonella](https://www.google.com/search?q=salmonella+outbreak&tbm=nws) outbreaks demonstrate.
+
+Together, this lack of transparency into how software is created and delivered, and the loosely-coupled, complex graph of actors, tools, and processes leads naturally to the “software supply chain security” problem. Consumers wind up having little choice to but trust that software they expect is what they actually receive.
+
+This is where supply chain integrity frameworks such as [in-toto](https://in-toto.io) come into the picture. These frameworks allow capturing digitally signed documents attesting that certain procedures were followed during the creation and delivery of the software; with assertions such as:
+
+- All source code commits came from the maintainer.
+
+- Tools X, Y, and Z were run against the source and had [these] findings.
+
+- Packages were built using compiler version X obtained from [this] source.
+
+- The files exhausted from the build process matched the files in the package.
+
+Supply chain integrity frameworks don’t prevent all vulnerabilities or ensure that malicious code cannot enter the supply chain; instead, they provide assurances that (a) artifacts cannot be modified surreptitiously, and (b) that trusted entities have attested that certain tasks have taken place, optionally generating additional artifacts.
+
+Additional details can be found in Mark Russinovich’s keynote at RSA 2020, [Collaborating to Improve Open Source Security: How the Ecosystem Is Stepping Up](https://www.rsaconference.com/usa/agenda/collaborating-to-improve-open-source-security-how-the-ecosystem-is-stepping-up).
+
+We recommend the following:
+
+- Coalition members should begin experimenting with efforts such as in-toto for securing the end-to-end integrity of supply chains.
+
+### Project Archetypes
+
+Open source projects come in all shapes and sizes, from *hello-world*’s to homework assignments to full operating systems, and everything in between. Unfortunately, it is not always easy to recognize the goals of a project in terms of support and continued development. As a result, software developers often end up relying on open source components that are abandoned (implicitly or explicitly), and are forced to either retrofit a different component into the system or accept the risk of using the component as-is.
+
+If we examine projects at scale, we expect them to fall into a small number of categories based on their (increasing) level of support:
+
+- **No support.** These include “hello world”, “just testing this out”, homework projects, and barely started projects that never went anywhere. There should be no expectations for any future work. This category includes explicitly ‘archived’ or ‘deprecated’ projects, but could also include small projects that are essentially “complete”, like the one-liner [is-even](https://www.npmjs.com/package/is-even) NPM package, which is downloaded over 80,000 times per week, but simply negates the output of a call to the [is-odd](https://www.npmjs.com/package/is-odd) NPM package.
+
+- **Minimal support.** These are typical “garage” projects that often meet a niche need. They are often maintained by a single individual, who may stop supporting it at any time, with or without notice.
+
+- **Best effort support.** These are often medium-sized projects, maintained by one or a small number of individuals. They can be widely used, and the maintainers typically address issues and issue new releases on a somewhat regular, but uncommitted basis.
+
+- **Promised support.** These are typically large projects, funded by commercial enterprises or foundations. They often have roadmaps, frequent development, bug fix SLAs, and high-quality releases (some of which would be available through a commercial support agreement).
+
+Package consumers could then make more informed decisions when taking a dependency, especially when the component in question was a fundamental part of their system architecture.
+
+We recommend the following:
+
+- A document should be created that describes these archetypes and be socialized and refined with the help of the larger open source community. As they mature, source code repositories and package management systems should build support for relaying this information when consumers browse or access a package.
+
+In addition, the open source ecosystem includes vendors that provide additional support (including fixes) for projects that may have a different upstream support model. For example, Debian maintains a list of [orphaned packages](https://www.debian.org/devel/wnpp/orphaned_byage), many of which are included in still-supported operating system versions. This means that a project, even with identical source code, could have multiple archetypes from the perspective of who is maintaining/supporting it. (Projects with multiple active forks will have a similar archetype.)
+
+### Strong Package Identity
+
+One challenge, perhaps somewhat unique to the open source ecosystem, is that most actors are anonymous, or pseudonymous. The maintainers will often have only a (purported) name, and e-mail address, and an account with a source code and package management repository. Identities of maintainers, projects, and packages, are always “local”, meaning, for example, the packages called “2048” at [NPM](https://www.npmjs.com/package/2048), [NuGet](https://www.nuget.org/packages/2048/), and [PyPI](https://pypi.org/project/2048/) share a name, but have completely different code bases and are authored by different individuals.
+
+To better illustrate the point, consider the relationship that each package has to the ecosystem around it. A developer wants to understand if they are affected by a vulnerability in zlib. The developer understands that they are using the NuGet “zlib.net” package, the RubyGems “zlib” package, and the “zlib1g” package from Debian².
+
+<img src="img/PackageIdentity.png" title="" alt="Package Identity" width="670">
+
+Of course, the first two have no relationship to the *real* zlib implementation, so the vulnerability probably wouldn’t affect it. The version maintained by Debian comes with a series of patches, which results in a solid, *maybe*. 
+
+Having a strong identity would mean that the NuGet “zlib.net” package would be *obviously* unaffiliated with the [madler/zlib](https://github.com/madler/zlib) project on GitHub, as would the RubyGems “zlib” package. The Debian package has a well-defined relationship to the root zlib project. A software bill of materials would be one method of providing this, as would better tools to trace source code back to individual commits in different repositories. This leads naturally to provenance, the ability to reason about the lineage of a particular component. For example, if we were to learn that the “Debian/zlib1g” project was authored 90% by Mark Adler, 8% by other contributors to the madler/zlib repository, and 2% by Mark Brown, and that the changes by Mark Brown were made two weeks after a new minor version of madler/zlib was released, that would probably give us confidence that the two are tightly coupled.
+
+There are many challenges that would need be addressed in order to implement a strong package identity, including questions around provenance, trust anchors, revocation, partially trusted source, cryptographic agility, and distributed vs. centralized control. While on paper, code-signing can help, the enormous [friction](https://www.bleepingcomputer.com/news/software/notepad-no-longer-code-signed-dev-wont-support-overpriced-cert-industry/) involved in purchasing and maintaining a code signing certificate has led to very few non-corporate-backed projects using them. 
+
+We recommend the following:
+
+- Consideration should be given to the concept of a “strong” identity for open source packages
+
+- Typo-squatting should be addressed within and between package management systems. (See [Typo-Squatting Attacks](#Typo-Squatting-Attacks) for additional information.)
+
+### Project Risk Estimation
+
+When allocating resources to directly contribute to specific projects, it is important to do so in such a way as to achieve maximum benefit to those projects. We can use the term “project criticality” to reflect how important a project is to the larger ecosystem; roughly speaking, a security flaw in a more critical project would have a greater aggregate impact across all consumers of that project than a similar security flaw would have to a less critical project.
+
+On the other hand, there’s some reason to believe that the critical projects undergo greater scrutiny and would therefore be less likely to contain such flaws.
+
+Countering this would be an argument that more critical projects are more complex than most others, making security flaws more difficult to detect.
+
+Finally, one could argue that critical components are often used deep within software systems (e.g., libc, cryptographic libraries, garbage collection systems) and not exposed directly to end-users; as a result, any vulnerability in those critical components would be less likely to be exploitable, since a “path” would need to connect that point of vulnerability to the external system interface. Experience has shown this analysis to be both time-consuming and error-prone, even for experts intimately familiar with the affected source code. Clearly, an automated solution would be required.
+
+We could argue this point indefinitely, but the net of this is that we should not make any assumptions about a correlation between the security quality of a project and its criticality.
+
+#### Calculating Project Criticality
+
+Project criticality can be measured in different ways, either qualitatively or quantitatively. On the qualitative side, we can independently ask many organizations what they perceive to be the most critical open source projects they depend on. Those projects with the most “votes” should begin to approximate the “right” answer as the sample size increases.
+
+On the other hand, we can use data to “score” components based on their prevalence and their broad categories. For example, standard “libc” libraries form the backbone of practically all user-space software, and the Linux kernel would similarly be for all practical purposes, “universal”. In the JavaScript ecosystem, the [Lodash](https://www.npmjs.com/package/lodash) NPM module is downloaded over 20 million times per week, and is depended upon by over 110,000 other NPM modules.
+
+The Linux Foundation’s Core Infrastructure Initiative released the [Census Program II Preliminary Report](https://www.coreinfrastructure.org/programs/census-program-ii/) in February 2020, which contains the ten most-used JavaScript and non-JavaScript components, according to their collection and scoring methodology.
+
+We recommend the following:
+
+- Collect a survey to proactively solicit anonymous feedback on the perceived N most critical open source software in use by a representative set of organizations.
+
+- Research should be performed to establish a better quantitative metric for project criticality.
+
+- Establish a metric to identify the N most depended upon software components.
+
+#### Calculating Project Risk
+
+We can define “project risk” as a proxy for, “how likely will we suffer damage due to a future security vulnerability in this project?” Project risk therefore clearly depends on criticality, but a critical project that is exceptionally well managed should have less aggregate risk than a less critical project that is poorly managed.
+
+### Project Health
+
+We define “project health” to be, roughly, the likelihood that a project will meet user expectations in the short-term future. Project health can often be related to security quality, but one could imagine cases where the two differ significantly, such as small libraries that are “abandoned” but don’t contain any known security flaws.
+
+When choosing an open source package to depend on, project health is often a contributing factor. A healthy project is more likely to support, for example, future web browsers, new versions of a programming language, or simply new features.
+
+However, there are no well-adopted methodologies for calculating a project’s health; instead, developers often rely on coarse metrics like the number of downloads or name recognition.
+
+We recommend the following:
+
+- Establish a methodology for estimating a project’s health, and refine it over time with actual data, potentially building a model using data science and machine learning techniques.
+
+### Security Audits
+
+Despite the increasing power of tools to identify security vulnerabilities in software, there remains value in having an expert review source code for security defects. Some organizations release their results publicly, including [Mozilla](https://www.mozilla.org/en-US/moss/), [Trail of Bits](https://github.com/trailofbits/publications/tree/master/reviews), [Cure53](https://cure53.de/#publications), [NCC Group](https://www.nccgroup.trust/us/our-research/?research=Public+Reports), and [others](https://github.com/pomerium/awesome-security-audits), but there are over 1,000 new components published every day, and quality reviews often take weeks to complete.
+
+The primary reason why security audits are important, above and beyond relying on publicly known vulnerabilities, is that with over two million open source components, only a small portion of them have ever been looked at from a security perspective. Security researchers are a scarce commodity, and often focus on components that they believe will yield the highest return. To illustrate the point, which component would you perceive to be more secure?
+
+- Component A has had 6 CVEs published over the past five years, all promptly fixed.
+
+- Component B, which has never had a CVE published.
+
+The answer is, again, *it depends*. Perhaps Component A underwent hundreds of hours of scrutiny and Component B, none at all? There simply is not enough information to decide. What if, instead, we have:
+
+- Component A has had 6 CVEs published over the past five years, all promptly fixed.
+
+- Component B, which has never had a CVE published, and an independent security review did not discover any security issues.
+
+That would make Component B *possibly* a more secure option.
+
+As part of the Open Source Project Security Service, we recommend:
+
+- The service should include security reviews or links to externally prepared reviews for relevant open source components.
+
+### Software Characteristics
+
+We use the term “software characterization” to refer to analysis that identifies interesting features, characteristics, and related information from a set of source code files. These characteristics could include things like:
+
+- using or implementing cryptography,
+
+- making authentication or authorization decisions,
+
+- updating system configuration (e.g., managing user accounts, startup scripts, etc.), or
+
+- connecting to databases or other external cloud services.
+
+These can be useful when making decisions about where to focus resources; for example, many NPM modules are essentially “compute-only” (requiring no system or network access), and may require less scrutiny than a module with more complex integrations.
+
+Software characterization tools include [Microsoft Application Inspector](https://github.com/Microsoft/ApplicationInspector) and [Microsoft Attack Surface Analyzer](https://github.com/Microsoft/AttackSurfaceAnalyzer).
+
+When analyzing software at scale, it’s often desirable to be able to group components by a common characteristic, such as the type of data they use, the other services they interact with, or the degree to which they affect the configuration of the system they are installed on. These tools can help analysts focus attention on more critical projects or on parts of a larger project that implement higher-risk functionality.
+
+### Open Source Project Security Service (Dashboard)
+
+When selecting an open source component, it is often helpful to understand whether the one chosen is the best one for the job. After all, there are literally hundreds of libraries that perform sorting, logging, database interaction, and similar “low-level” functions. How is a developer to choose which is best (and roughly, which ones are secure)?
+
+Metrics can be useful in helping to convey this information to a prospective user, and can fall into at least two basic categories:
+
+- **Project Health** – How likely will the project continue to meet the needs of its users in the future?
+
+- **Security Posture** – How likely will the project contain security vulnerabilities that will affect projects that depend on it? 
+
+These categories, and the elements that can contribute to them have been discussed at length in earlier sections of this document, especially in [Project Risk Estimation](#Project-Risk-Estimation), [Project Health](#Project-Health), [Security Audits](#Security-Audits), [Static Analysis](#Static-Analysis), and [Security Response](#Security-Response). Essentially, most of what this document describes could contribute in some way into useful metrics for open source projects.
+
+Regarding prior work, there have been a few notable attempts at calculating useful health metrics, including:
+
+- The Cloud Native Computing Foundation’s [DevStats](https://all.devstats.cncf.io/d/53/projects-health-table?orgId=1) project, which calculates health metrics for associated projects based on data from GitHub.
+
+- The [Community Health Analytics Open Source Software (CHAOSS)](https://chaoss.community/) project from the [Linux Foundation](https://www.linuxfoundation.org/) is currently active, with reports and software available for self-hosting, but the author wasn’t able to find public results for analyzed projects.
+
+- The [OSSMETER project](http://www.ossmeter.org/), funded by the European Commission, looks to be unmaintained, with their last publication in 2014 and last [source code](https://github.com/ossmeter/ossmeter) commit in 2017.
+
+We recommend the following:
+
+- The Coalition should research whether existing work from the above-referenced sources could be leveraged to build a useful per-project dashboard; if not, the Coalition should drive the creation of one.
+
+### Security Education
+
+We believe that security education is an important part of a modern software developer’s ongoing training. This means much more than “trivia” that can be easily found with a tool. Instead, such an education should include things like:
+
+- Understanding the “attacker mindset” and how to leverage it while designing a software component (including threat modeling).
+
+- How to design and implement security features effectively (e.g., authentication, authorization, cryptography, serialization, etc.).
+
+- Common vulnerability classes and how to remediate them when found.
+
+- Using security tools effectively (e.g., how to integrate them into a development process and how to interpret and action the results).
+
+To this end, we recommend the following:
+
+- The Coalition should continue to drive work on understanding the current gaps and how they can be addressed.
+
+# Conclusion
+
+As stated in the introduction, the purpose of this document is not to be exhaustive, but rather to simply touch on the most significant risks that can affect the open source ecosystem. The intent is to establish a framework for dialog and hopefully to help stakeholders focus efforts on the areas that present the greatest risk.
+
+We will plan to update this document as needed. If you have questions or feedback about the contents of this document, please direct them to the primary author, Michael Scovetta at either michael.scovetta@microsoft.com or michael.scovetta@gmail.com.
+
+# Appendix
+
+## Summary of Recommendations
+
+### Recommendation
+
+#### [Ideation/Concept Phase](#Ideation/Concept-Phase)
+
+- Create/curate training materials for threat modeling.
+
+- Create templated threat models for common types of open source projects. 
+
+- Collaborate with critical projects to perform threat modeling.
+
+#### [Local Development Phase](#Local-Development-Phase)
+
+- Create/curate guidance on secure configuration of common platforms/frameworks.
+
+- Curate list of high-quality security libraries/frameworks.
+
+- Improve build system integration with static analysis and fuzzing tools.
+
+- Drive toward “on by default” static analysis.
+
+- Establish a cross-tool format for expressing security detection rules.
+
+- Drive “auto-fix” capabilities into static analysis tools.
+
+- Analyze security of snippets available on Stack Overflow.
+
+- Advocate for using runtime security tools on open source projects.
+
+- Improve developer training on secure development techniques.
+
+- Curate list of high-quality security tools and how to use them effectively.
+
+- Provide developers of critical open source projects access to security experts.
+
+- Research binary hardening techniques and drive work to close gaps.
+
+- Advocate for an effective “capabilities” model for open source platforms/runtimes.
+
+- Actively fund security work for critical open source projects.
+
+- Advocate a position of “keep open source packages up to date”.
+
+- Create/expand bug/patch bounty programs for open source packages.
+
+- Expand secret detection capabilities in key systems.
+
+- Establish a best-in-class open source tool for detection of exposed secrets.
+
+- Create playbook for using secure secret management capabilities.
+
+- Include secret management in best practice documentation to developers.
+
+#### [External Contribution Phase](#External-Contribution-Phase)
+
+- Create/curate best practices for securely accepting external contributions.
+
+#### [Central Infrastructure Phase](#Central-Infrastructure-Phase)
+
+- Establish a best practice around disclosure of minimally triaged security tool findings.
+
+- Actively fund triage of security findings against critical open source projects.
+
+- Validate feasibility of “sneaking” a malicious change through code review.
+
+#### [Package Consumption Phase](#Package-Consumption-Phase)
+
+- Drive package management system to expose a “published using 2FA” flag.
+
+- Add a “policy” to package downloaders for requiring 2FA published packages.
+
+- Share security best practices among the package management system community.
+
+- Package management systems should improve detection of typo-squatting.
+
+- Research effects of package removal on different package ecosystems.
+
+- Advocate for use of scoped publishing tokens.
+
+- Improve detection capabilities for malicious packages when published and share observations with other package management systems.
+
+- Advocate for reproducibility as part of a trusted publishing pipeline.
+
+- Tighten integration between source code repositories, build pipelines, and package
+
+- management systems.
+
+- Research how package update policies affect the security of a system.
+
+#### [Vulnerability Reporting & Security Response Phase](#Vulnerability-Reporting-&-Security-Response-Phase)
+
+- Source code repositories should improve support for “auto-upgrading” dependencies.
+
+- Public vulnerability reports should be expanded to include more information to enable consumers to know whether they are vulnerable.
+
+- Establish a machine-readable schema for security reporting.
+
+- Create/curate a “help line” for reporting vulnerabilities in open source projects.
+
+#### [Cross-Cutting Tasks](#Cross-Cutting-Tasks)
+
+- Support efforts to standardize a Software Bill of Materials framework that can be adopted within the open source ecosystem.
+
+- Create/curate a description of project archetypes and socialize with the community.
+
+- Research how a “strong package identity” could be feasible with the open source community.
+
+- Collect/curate a list of the most-critical open source projects.
+
+- Establish a methodology for calculating project health.
+
+- Research or establish an open source project “metrics dashboard” to expose security-relevant information to consumers.
+
+- Research current gaps in security education and work to fill those gaps.
