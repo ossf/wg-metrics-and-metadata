@@ -26,7 +26,7 @@ More generally, security vulnerabilities continue to grow in number, with over 1
 
 These are scary numbers, but they do not tell the whole story. The purpose of this document is not to promote fear, but to offer solutions and align disparate efforts toward a common goal. To move forward, we must first build a mutual understanding of the threats and risks associated with the open source ecosystem. Where applicable, we offer suggestions on ways to address the threats and mitigate the risks, but we do not presume any of this to be exhaustive. At best, we hope to start a conversation about the best way to proceed.
 
-A summary of recommendations can be found in the [Appendix]().
+A summary of recommendations can be found in the [Appendix](#Appendix).
 
 ## Version History
 
