@@ -97,13 +97,13 @@ Thank you to everyone who reviewed, commented, and provided content for this doc
 
 To better frame what we’re going to be exploring, we’ll start with a simple diagram that describes the major parts of the open source ecosystem and how they often relate to one another.
 
-![](img/Threat&Risks.png)
+![The graph shows the major parts of an open-source ecosystem, from the idetation of a project to the distribution](img/Threat&Risks.png)
 
 We will use the diagram above to frame our exploration of threats and possible mitigations, after which we’ll discuss some general, cross-cutting practices and recommendations.
 
 ## Ideation / Concept Phase
 
-<img src="img/Ideation.png" title="" alt="" width="297">
+<img src="img/Ideation.png" title="" alt="First phase: ideation and concept" width="297">
 
 In this phase, there are few explicit threat actors; instead, there is the potential for “business”-level security flaws, biases that have security implications, and other high-level design problems that can have severe consequences if not identified and properly addressed.
 
@@ -165,7 +165,7 @@ We recommend considering the following projects to advance this area:
 
 ## Local Development Phase
 
-<img src="img/LocalDevelopment.png" title="" alt="" width="453">
+<img src="img/LocalDevelopment.png" title="" alt="The graph shows the local development of open source projects" width="453">
 
 Local development of open source projects usually takes place on the maintainer’s personal infrastructure (workstations, local network, etc.), which, like any other infrastructure, can be vulnerable to attack. For example, [XcodeGhost](https://en.wikipedia.org/wiki/XcodeGhost) was a malicious distribution of Apple’s Xcode software, targeting the far left of the supply chain—the developer’s IDE and local build environment. Similar attacks have become more common, such as the [eslint-scope malware](https://nodesource.com/blog/a-high-level-post-mortem-of-the-eslint-scope-security-incident/) that attempted to exfiltrate the developer’s NPM access tokens during installation.
 
@@ -281,7 +281,7 @@ We recommend the following:
 
 In an ideal world, all security defects would be identified immediately, enabling the software developer to fix them prior to ever being checked in. In the real world, security defects are found at all times throughout the lifecycle, but there are obvious advantages (risk, [cost](https://www.researchgate.net/publication/255965523_Integrating_Software_Assurance_into_the_Software_Development_Life_Cycle_SDLC), etc.) to identifying these as early as possible. This is often referred to as “shifting left”, based on a simplified view of the development lifecycle:
 
-![](img/ReducingTheLikelihoodThatAVulnerabilityWillBeIntroduced.png)
+![Graph of the development lifecycle: ideation, design, development, testing, release, maintenance, retirement](img/ReducingTheLikelihoodThatAVulnerabilityWillBeIntroduced.png)
 
 In order to “shift left” as much as possible, software developers require access to high-quality guidance on how to address common classes of software vulnerabilities. While there are some high-quality sources available, including the [OWASP](https://owasp.org) [Cheat Sheet Series](https://cheatsheetseries.owasp.org/), few are comprehensive, curated, and kept up to date. 
 
@@ -341,7 +341,7 @@ A reasonable metric around fixing vulnerabilities could be the elapsed time betw
 
 These metrics cannot be completely separated from one another; for one thing, many open source projects are both consumers of upstream packages and providers of packages to downstream consumers. Consider the following:
 
-![](img/VulnerabilitiesFixingFlow.png)
+![The graph shows a chain of components, dependent on each other, and shows the time difference between the update of the first component and the last](img/VulnerabilitiesFixingFlow.png)
 
 In this scenario, think of yourself as a software developer using Component D. A vulnerability in Component A is found on January 1st and fixed ten days later. Downstream packages pick up the fix, one by one, until Component D issues a release in mid-March, which you notice and update at the end of March. Depending on the specifics of the vulnerability, you could have been affected by this publicly-known vulnerability for over two months, even though everyone was issuing fixes in a reasonable timeframe.
 
@@ -447,7 +447,7 @@ To mitigate the remaining risks, we recommend:
 
 ## Central Infrastructure Phase
 
-<img src="img/CentralInfrastructure.png" title="" alt="" width="408">
+<img src="img/CentralInfrastructure.png" title="" alt="The graph shows the open source supply chain: source code repository, testing and validation, continuous integration and delivery, package publishing, package management" width="408">
 
 “Central Infrastructure” refers to elements in the open source supply chain that are typically operated “as a service” by a trusted third party (e.g., GitHub, NPM, Travis CI, Azure DevOps, etc.). This has advantages to both the maintainer (lower cost and complexity, high quality, etc.) and consumer (increased trust), but some threats apply here.
 
@@ -555,7 +555,7 @@ The main threat here is that an attacker would gain access to the maintainer’s
 
 ## Package Consumption Phase
 
-![](img/PackageConsumptionFlow.png)
+![The graph shows the package consumption phases: package selection, package installation, package use, package removal](img/PackageConsumptionFlow.png)
 
 Package consumption is the process through which “external” packages are chosen and integrated into a software component. In this case, package consumption actually refers to two similar things:
 
@@ -855,7 +855,7 @@ From the consumer’s perspective, these lead to the following risks:
 
 Suppose a software product is using an open source component for padding strings, and that that component contains a security vulnerability. Is the software product vulnerable as a result? The answer is, unfortunately, *<u>it depends</u>*. This is because when you consume a component, you usually only use a small part of the functionality it implements. If a vulnerability were to only affect those parts of the component that aren’t used, then there wouldn’t be a way to exploit it, and you’d be safe to use it, at least for the time being.
 
-![](img/AttackSurface.png)
+![The graph shows various options for how a consumer can respond to a vulnerability in an open source component](img/AttackSurface.png)
 
 The above graph shows various options for how a consumer can respond to a vulnerability in an open source component. If we make some broad assumptions:
 
@@ -874,7 +874,7 @@ On the other side, the cost to determine if a software product were indeed vulne
 
 One way to potentially improve this would be to *attempt* an automated upgrade, and only fall back to the graph described above if it failed:
 
-![](img/AttackSurface2.png)
+![The graph shows the last one by the addition of a new layer, the automatic updates for improving the security of the project](img/AttackSurface2.png)
 
 If we assume the cost to try an automated upgrade is \$5, and it works 80% of the time, it would reduce the cost of the left branch from \$100 to \$24 (\$5 * 0.80 + \$100 * 0.20), the middle from \$333 to \$71 (\$5 * 0.80 + \$1,000 * 0.20 * 0.33), and the right from \$53 to \$15 (\$5 * 0.80 + (\$20 + \$100 * 0.33) * 0.20).
 
