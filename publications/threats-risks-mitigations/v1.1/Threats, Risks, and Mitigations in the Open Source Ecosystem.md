@@ -97,13 +97,13 @@ Thank you to everyone who reviewed, commented, and provided content for this doc
 
 To better frame what we’re going to be exploring, we’ll start with a simple diagram that describes the major parts of the open source ecosystem and how they often relate to one another.
 
-![Diagram for analyzing threats and possible mitigations](img/Threat&Risks.png)
+![](img/Threat&Risks.png)
 
 We will use the diagram above to frame our exploration of threats and possible mitigations, after which we’ll discuss some general, cross-cutting practices and recommendations.
 
 ## Ideation / Concept Phase
 
-![Ideation, the first phase of the diagram](img/Ideation.png)
+<img src="img/Ideation.png" title="" alt="" width="297">
 
 In this phase, there are few explicit threat actors; instead, there is the potential for “business”-level security flaws, biases that have security implications, and other high-level design problems that can have severe consequences if not identified and properly addressed.
 
@@ -165,7 +165,7 @@ We recommend considering the following projects to advance this area:
 
 ## Local Development Phase
 
-<img src="img/LocalDevelopment.png" title="" alt="Local Development phase" width="385">
+<img src="img/LocalDevelopment.png" title="" alt="" width="453">
 
 Local development of open source projects usually takes place on the maintainer’s personal infrastructure (workstations, local network, etc.), which, like any other infrastructure, can be vulnerable to attack. For example, [XcodeGhost](https://en.wikipedia.org/wiki/XcodeGhost) was a malicious distribution of Apple’s Xcode software, targeting the far left of the supply chain—the developer’s IDE and local build environment. Similar attacks have become more common, such as the [eslint-scope malware](https://nodesource.com/blog/a-high-level-post-mortem-of-the-eslint-scope-security-incident/) that attempted to exfiltrate the developer’s NPM access tokens during installation.
 
@@ -209,7 +209,7 @@ We recommend the following activities in this area:
 
 ### Writing Code
 
-<img src="img/WritingCode.png" title="" alt="Writing code phase" width="249">
+<img src="img/WritingCode.png" title="" alt="" width="401">
 
 All software contains flaws, and those flaws can often impact the security quality of a system. There is clear consensus that the best time to detect and fix security flaws is early in the development process, but this understanding does not always translate into clear action. Many teams apply some sort of analysis, ranging from linters to advanced static analysis tools.
 
@@ -281,7 +281,7 @@ We recommend the following:
 
 In an ideal world, all security defects would be identified immediately, enabling the software developer to fix them prior to ever being checked in. In the real world, security defects are found at all times throughout the lifecycle, but there are obvious advantages (risk, [cost](https://www.researchgate.net/publication/255965523_Integrating_Software_Assurance_into_the_Software_Development_Life_Cycle_SDLC), etc.) to identifying these as early as possible. This is often referred to as “shifting left”, based on a simplified view of the development lifecycle:
 
-<img title="" src="file:///home/luigi/Documenti/repository/wg-identifying-security-threats/publications/threats-risks-mitigations/v1.1/img/ReducingTheLikelihoodThatAVulnerabilityWillBeIntroduced.png" alt="Development lifecycle" data-align="left" width="617">
+![](img/ReducingTheLikelihoodThatAVulnerabilityWillBeIntroduced.png)
 
 In order to “shift left” as much as possible, software developers require access to high-quality guidance on how to address common classes of software vulnerabilities. While there are some high-quality sources available, including the [OWASP](https://owasp.org) [Cheat Sheet Series](https://cheatsheetseries.owasp.org/), few are comprehensive, curated, and kept up to date. 
 
@@ -341,7 +341,7 @@ A reasonable metric around fixing vulnerabilities could be the elapsed time betw
 
 These metrics cannot be completely separated from one another; for one thing, many open source projects are both consumers of upstream packages and providers of packages to downstream consumers. Consider the following:
 
-<img src="img/VulnerabilitiesFixingFlow.png" title="" alt="Vulnerabilities fixing flow: Component A, B, C, D" width="634">
+![](img/VulnerabilitiesFixingFlow.png)
 
 In this scenario, think of yourself as a software developer using Component D. A vulnerability in Component A is found on January 1st and fixed ten days later. Downstream packages pick up the fix, one by one, until Component D issues a release in mid-March, which you notice and update at the end of March. Depending on the specifics of the vulnerability, you could have been affected by this publicly-known vulnerability for over two months, even though everyone was issuing fixes in a reasonable timeframe.
 
@@ -403,7 +403,7 @@ Testing often takes place both locally (usually informally) and within a formal 
 
 ## External Contributions Phase
 
-<img src="img/ExternalContribution.png" title="" alt="External Contributions Phases" width="347">
+<img src="img/ExternalContribution.png" title="" alt="" width="422">
 
 In this phase, we explore changes made to a software component by a loosely-affiliated individual, which is to say not by the main author or trusted maintainer. This contributor can be trustworthy or underhanded, and the contribution itself can be of any level of quality. Most open source projects have a way to validate and accept (or reject) these contributions, and the most common way is through a pull request.
 
@@ -447,7 +447,7 @@ To mitigate the remaining risks, we recommend:
 
 ## Central Infrastructure Phase
 
-<img src="img/CentralInfrastructure.png" title="" alt="Central Infrastructure Phase" width="406">
+<img src="img/CentralInfrastructure.png" title="" alt="" width="408">
 
 “Central Infrastructure” refers to elements in the open source supply chain that are typically operated “as a service” by a trusted third party (e.g., GitHub, NPM, Travis CI, Azure DevOps, etc.). This has advantages to both the maintainer (lower cost and complexity, high quality, etc.) and consumer (increased trust), but some threats apply here.
 
@@ -555,7 +555,7 @@ The main threat here is that an attacker would gain access to the maintainer’s
 
 ## Package Consumption Phase
 
-<img src="img/PackageConsumptionFlow.png" title="" alt="Package Consumption Flow" width="652">
+![](img/PackageConsumptionFlow.png)
 
 Package consumption is the process through which “external” packages are chosen and integrated into a software component. In this case, package consumption actually refers to two similar things:
 
@@ -855,7 +855,7 @@ From the consumer’s perspective, these lead to the following risks:
 
 Suppose a software product is using an open source component for padding strings, and that that component contains a security vulnerability. Is the software product vulnerable as a result? The answer is, unfortunately, *<u>it depends</u>*. This is because when you consume a component, you usually only use a small part of the functionality it implements. If a vulnerability were to only affect those parts of the component that aren’t used, then there wouldn’t be a way to exploit it, and you’d be safe to use it, at least for the time being.
 
-<img src="img/AttackSurface.png" title="" alt="Identifying Vulnerabilities on the Attack Surface" width="636">
+![](img/AttackSurface.png)
 
 The above graph shows various options for how a consumer can respond to a vulnerability in an open source component. If we make some broad assumptions:
 
@@ -874,7 +874,7 @@ On the other side, the cost to determine if a software product were indeed vulne
 
 One way to potentially improve this would be to *attempt* an automated upgrade, and only fall back to the graph described above if it failed:
 
-<img src="img/AttackSurface2.png" title="" alt="" width="664">
+![](img/AttackSurface2.png)
 
 If we assume the cost to try an automated upgrade is \$5, and it works 80% of the time, it would reduce the cost of the left branch from \$100 to \$24 (\$5 * 0.80 + \$100 * 0.20), the middle from \$333 to \$71 (\$5 * 0.80 + \$1,000 * 0.20 * 0.33), and the right from \$53 to \$15 (\$5 * 0.80 + (\$20 + \$100 * 0.33) * 0.20).
 
@@ -994,7 +994,7 @@ One challenge, perhaps somewhat unique to the open source ecosystem, is that mos
 
 To better illustrate the point, consider the relationship that each package has to the ecosystem around it. A developer wants to understand if they are affected by a vulnerability in zlib. The developer understands that they are using the NuGet “zlib.net” package, the RubyGems “zlib” package, and the “zlib1g” package from Debian².
 
-<img src="img/PackageIdentity.png" title="" alt="Package Identity" width="670">
+![](img/PackageIdentity.png)
 
 Of course, the first two have no relationship to the *real* zlib implementation, so the vulnerability probably wouldn’t affect it. The version maintained by Debian comes with a series of patches, which results in a solid, *maybe*. 
 
