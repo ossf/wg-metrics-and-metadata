@@ -297,7 +297,15 @@ We recommend the following take place:
 
 All software contains defects, and some of those defects have security implications. Over the past two decades, considerable work has gone into making it harder for these security defects to be successfully exploited by an attacker. Indeed, just as in the physical world, secure facilities have more than one “lock”, secure software systems have more than one control to prevent abuse. This “defense in depth” is a hallmark of secure software and can have a significant impact on the overall security and resilience of a system.
 
-In practice, this work usually takes the form of security controls implemented within the platform, runtime, or operating system that will identify when the application is doing something unexpected, and take some form of corrective action. Examples include:
+Moreover, there are various types of software vulnerabilities. There are also various exploitation techniques for performing attacks using the vulnerabilities. So building security architecture of a system requires understanding of the relationships between:
+ - Bug detection mechanisms,
+ - Defense technologies,
+ - Vulnerability classes,
+ - Exploitation techniques.
+
+For example, [Linux Kernel Defence Map](https://github.com/a13xp0p0v/linux-kernel-defence-map) shows such relationships for the Linux kernel. This map is useful for developing a threat model for your GNU/Linux system and then learning about kernel defenses that can help against some of these threats.
+
+In practice, this work also takes the form of security controls implemented within the platform, runtime, or operating system that will identify when the application is doing something unexpected, and take some form of corrective action. Examples include:
 
 - An application-level firewall notices patterns associated with [Cross-Site Scripting (XSS)](https://owasp.org/www-community/attacks/xss/) or [SQL Injection](https://owasp.org/www-community/attacks/SQL_Injection), and blocks traffic from getting to the application.
 
@@ -309,7 +317,7 @@ We recommend the following projects in this area:
 
 - Create guidance on how to leverage binary- and platform-level mitigations when building or deploying systems; this could include activities like enabling [Control Flow Integrity](https://clang.llvm.org/docs/ControlFlowIntegrity.html), avoiding [speculative execution](https://www.kernel.org/doc/html/latest/admin-guide/hw-vuln/spectre.html) attacks, and enforcing [address space layout randomization](https://en.wikipedia.org/wiki/Address_space_layout_randomization).
 
-- Analyze state-of-the-art techniques for binary hardening across different operating systems; start work on porting techniques where there are significant differences, if any.
+- Analyze state-of-the-art techniques for binary hardening across different operating systems; start work on porting techniques where there are significant differences, if any. For example, [kconfig-hardened-check tool](https://github.com/a13xp0p0v/kconfig-hardened-check) provides the recommendations that you can use for hardening the Linux kernel on your systems.
 
 - Implement a “capabilities” model into one or more programming language runtimes.
 
