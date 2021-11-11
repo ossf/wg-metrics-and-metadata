@@ -49,6 +49,8 @@ state of open source security.
   open source projects to stakeholders, including users. [**See the deployed security metrics dashboard website**](https://metrics.openssf.org/)
 * [Security Reviews](https://github.com/ossf/security-reviews) -
   This repository contains a collection of security reviews of open source software. It's used as an input to the Security Metrics.
+* [Project Security Information Specification (OSSF-SECURITY.yml))](https://docs.google.com/document/d/1Hqks2J0wVqS_YFUQeIyjkLneLfo3_9A-pbU-7DZpGwM/edit) - early draft work to capture some security-related machine-processable information within a project
+* Alpha-Omega - Project alpha-omega will be its own project, but it has incubated within this working group
 
 ### Get Involved
 
