@@ -60,6 +60,7 @@ state of open source security.
 * [Mailing List](https://lists.openssf.org/g/openssf-wg-security-threats) and [Security Reviews](https://github.com/ossf/security-reviews).
   ([Manage your subscriptions to OpenSSF mailing lists](https://lists.openssf.org/g/main/subgroups))
 * [OpenSSF Community Calendar](https://calendar.google.com/calendar?cid=czYzdm9lZmhwNWk5cGZsdGI1cTY3bmdwZXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ)
+* [Join us on Slack](https://openssf.slack.com/archives/C01A50B978T)
 
 ### Related Work
 
@@ -82,9 +83,9 @@ state of open source security.
 
 ### Meeting times
 
-* We meet every other week, alternating between Mondays and Wednesdays. See the
+* We meet every other week on Wednesdays. See the
   [OpenSSF Community Calendar](https://calendar.google.com/calendar?cid=czYzdm9lZmhwNWk5cGZsdGI1cTY3bmdwZXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ)
-  and e-mail [Michael Scovetta](mailto:michael.scovetta@microsoft.com) to get
+  or e-mail [Michael Scovetta](mailto:michael.scovetta@microsoft.com) to get
   an invite to the next meeting or the series.
 * [Meeting Minutes](https://docs.google.com/document/d/1AfI0S6VjBCO0ZkULCYZGHuzzW8TPqO3zYxRjzmKvUB4/edit?usp=sharing)
 
