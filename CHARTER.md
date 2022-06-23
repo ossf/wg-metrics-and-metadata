@@ -1,14 +1,15 @@
 # Technical Charter for Open Source Security Foundation
 
-[COMMUNITY NAME - Working Group | Technical Initiative]
+Identifying Security Threats - Working Group
 
-Adopted [DATE]
+Adopted June 23, 2022
 
-This Technical Charter sets forth the responsibilities and procedures for technical contribution to, and oversight of, the [COMMUNITY NAME] open source community, which has been established as a [Working Group | Technical Initiative] (the "Technical Initiative") under the Open Source Security Foundation (the “OpenSSF”).  All contributors (including committers, maintainers, and other technical positions) and other participants in the Technical Initiative (collectively, “Collaborators”) must comply with the terms of this Technical Charter and the OpenSSF Charter. 
+This Technical Charter sets forth the responsibilities and procedures for technical contribution to, and oversight of, the Identifying Security Threats open source community, which has been established as a Working Group  (the "Technical Initiative") under the Open Source Security Foundation (the “OpenSSF”).  All contributors (including committers, maintainers, and other technical positions) and other participants in the Technical Initiative (collectively, “Collaborators”) must comply with the terms of this Technical Charter and the OpenSSF Charter. 
 
 #### 1. Mission and Scope of the Technical Initiative
 
-- a. The mission of the Technical Initiative is to [MISSION STATEMENT].
+- a. The mission of the Technical Initiative is to enable stakeholders to have informed confidence in the security of open source projects. We do this by collecting,
+curating, and communicating relevant metrics and metadata from open source projects and the ecosystems of which they are a part.
 
 - b. The scope of the Technical Initiative includes collaborative development under the Technical Initiative License (as defined herein) supporting the mission, including organizing collaboration activities, defining best practices, documentation, testing, integration, and the creation of other artifacts that support the mission.
 
@@ -96,7 +97,7 @@ This Technical Charter sets forth the responsibilities and procedures for techni
 
   - v. To the extent a contribution includes or consists of data, any rights in such data shall be made available under the CDLA-Permissive 1.0 License.
 
-  - vi. The Technical Initiative may seek to integrate and contribute back to other open source projects ("Upstream Projects"). In such cases, the Technical Initiative will conform to all license requirements of the Upstream Projects, including dependencies, leveraged by the Technical Initiative.  Upstream Project code contributions not stored within the Technical Initiative’s main code repository will comply with the contribution process and license terms for the applicable Upstream Project.
+  - vi. The Technical Initiative may seek to integrate and contribute back to other open source projects ("Upstream Projects"). In such cases, the Technical Initiative will conform to all license requirements of the Upstream Projects, including dependencies, leveraged by the Technical Initiative.  Upstream Project code contributions not stored within the Technical Initiative’s main code repository will comply with the contribution process and license terms for the applicable Upstream Project.
 
 - c. The TSC may approve the use of an alternative license or licenses for inbound or outbound contributions on an exception basis. To request an exception, please describe the contribution, the alternative open source license(s), and the justification for using an alternative open source license for the Technical Initiative. License exceptions must be approved by a two-thirds vote of the entire Governing Board. 
 
@@ -105,4 +106,3 @@ This Technical Charter sets forth the responsibilities and procedures for techni
 #### 7. Amendments
 
 - a. This charter may be amended by a two-thirds vote of the entire TSC and is subject to approval by the TAC.
-
