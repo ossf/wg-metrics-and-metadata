@@ -1,6 +1,6 @@
 # Virtual mini Summit for maintainers of critical OSS projects
 
-:calendar: One day event : January 25th 2023 – 10:30 EST
+:calendar: One day event : February 22nd 2023 – 10:30 EST
 
 🌎: Online event
 
