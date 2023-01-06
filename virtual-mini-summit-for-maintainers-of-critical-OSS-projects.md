@@ -1,6 +1,6 @@
 # Virtual mini Summit for maintainers of critical OSS projects
 
-:calendar: One day event : January 25th 2023 – 10:30 EST
+:calendar: One day event : February 22nd 2023 – 10:30 EST
 
 🌎: Online event
 
@@ -19,7 +19,7 @@ This is not an effort to drive OSS community to achieve higher security level by
 ### Who?
 
 List of invitees (candidates):
-- List of Critical Open Source Projects, Components, and Frameworks  – This would be a preferred source of attendees.  Contact amir@ostif.org – munawar@openrefactory.com
+- [List of Critical Open Source Projects, Components, and Frameworks](https://github.com/ossf/wg-securing-critical-projects)
 - Ask the foundations for the strongest leads of contributors
 Event size: ~ 40 people and/or ~15 critical projects. 
 
