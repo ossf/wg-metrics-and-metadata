@@ -1,6 +1,6 @@
 # Virtual mini Summit for maintainers of critical OSS projects
 
-:calendar: One day event : February 22nd 2023 – 10:30 EST
+:calendar: One day event : February 22, 2023 at 10:30 EST
 
 🌎: Online event
 
@@ -28,7 +28,7 @@ This is a private event and attendees will be asked to abide by Chatham House Ru
 
 ### Event Details
 
-- Date: January 25th, 2023
+- Date: February 22, 2023
 - Time: 0730 Pacific/1030 Eastern/ 1630 CET
 - Duration: 1 day event - 3.5/4 hours event 
 - Workshop format: 1.5 hours
