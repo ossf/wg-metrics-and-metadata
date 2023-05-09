@@ -84,13 +84,16 @@ ecosystem, as opposed to focusing exclusively on critical open source projects.
 The best way to get started is to simply join a working group meeting. You can also
 read our [Meeting Minutes](https://docs.google.com/document/d/1AfI0S6VjBCO0ZkULCYZGHuzzW8TPqO3zYxRjzmKvUB4/edit?usp=sharing) to get up to speed with what we're up to.
 
-### Working Group Meeting Times
+### Meeting Times
 
 * We meet every other week on Wednesdays. See the
   [OpenSSF Community Calendar](https://calendar.google.com/calendar?cid=czYzdm9lZmhwNWk5cGZsdGI1cTY3bmdwZXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ).
-* [Meeting Minutes](https://docs.google.com/document/d/1AfI0S6VjBCO0ZkULCYZGHuzzW8TPqO3zYxRjzmKvUB4/edit?usp=sharing)
+  
+### Meeting Notes
 
-### Antitrust Policy
+[Meeting Minutes](https://docs.google.com/document/d/1AfI0S6VjBCO0ZkULCYZGHuzzW8TPqO3zYxRjzmKvUB4/edit?usp=sharing) If attending please add your name, and if a returning attendee, please change the color of your name from gray to black.
+
+### Antitrust Policy Notice
 
 Linux Foundation meetings involve participation by industry competitors, and it is the intention of the Linux Foundation to conduct all of its activities in accordance with applicable antitrust and competition laws. It is therefore extremely important that attendees adhere to meeting agendas, and be aware of, and not participate in, any activities that are prohibited under applicable US state, federal or foreign antitrust and competition laws.
 
