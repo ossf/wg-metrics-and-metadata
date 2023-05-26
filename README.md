@@ -91,7 +91,7 @@ read our [Meeting Minutes](https://docs.google.com/document/d/1AfI0S6VjBCO0ZkULC
   
 ### Meeting Notes
 
-[Meeting Minutes](https://docs.google.com/document/d/1AfI0S6VjBCO0ZkULCYZGHuzzW8TPqO3zYxRjzmKvUB4/edit?usp=sharing) If attending please add your name, and if a returning attendee, please change the color of your name from gray to black.
+[Meeting Minutes](https://docs.google.com/document/d/14_ILDhSK3ymKqUTQeQBRgJKgfiy_ePoGZIe8s7p3K5E/edit?usp=sharing) If attending please add your name, and if a returning attendee, please change the color of your name from gray to black.
 
 ### Antitrust Policy Notice
 
