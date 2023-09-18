@@ -1292,11 +1292,11 @@ We will plan to update this document as needed. If you have questions or feedbac
 
 - Advocate for reproducibility as part of a trusted publishing pipeline.
 
-- Tighten integration between source code repositories, build pipelines, and package
-
-- management systems.
+- Tighten integration between source code repositories, build pipelines, and package management systems.
 
 - Research how package update policies affect the security of a system.
+
+- Check package integrity and signature.
 
 #### [Vulnerability Reporting & Security Response Phase](#Vulnerability-Reporting-&-Security-Response-Phase)
 
