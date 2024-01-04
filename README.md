@@ -82,7 +82,7 @@ ecosystem, as opposed to focusing exclusively on critical open source projects.
 ### Quick Start
 
 The best way to get started is to simply join a working group meeting. You can also
-read our [Meeting Minutes](https://docs.google.com/document/d/1AfI0S6VjBCO0ZkULCYZGHuzzW8TPqO3zYxRjzmKvUB4/edit?usp=sharing) to get up to speed with what we're up to.
+read our [Meeting Minutes](https://docs.google.com/document/d/1XimygAYGbG2aofAiBD9--ZMTALdnbdbVw53R851ZZKY/edit?usp=sharing) to get up to speed with what we're up to.
 
 ### Meeting Times
 
@@ -91,7 +91,7 @@ read our [Meeting Minutes](https://docs.google.com/document/d/1AfI0S6VjBCO0ZkULC
   
 ### Meeting Notes
 
-[Meeting Minutes](https://docs.google.com/document/d/14_ILDhSK3ymKqUTQeQBRgJKgfiy_ePoGZIe8s7p3K5E/edit?usp=sharing) If attending please add your name, and if a returning attendee, please change the color of your name from gray to black.
+[Meeting Minutes](https://docs.google.com/document/d/1XimygAYGbG2aofAiBD9--ZMTALdnbdbVw53R851ZZKY/edit?usp=sharing) If attending please add your name, and if a returning attendee, please change the color of your name from gray to black.
 
 ### Antitrust Policy Notice
 
