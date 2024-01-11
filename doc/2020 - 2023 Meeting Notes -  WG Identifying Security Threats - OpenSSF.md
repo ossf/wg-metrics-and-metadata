@@ -1,4 +1,4 @@
-<h2 align="center">Identifying Security Threats Work Group</h2>
+<h2 align="center">Metrics and Metadata Working Group</h2>
 
 
 <h2 align="center">Meeting Notes</h2>
