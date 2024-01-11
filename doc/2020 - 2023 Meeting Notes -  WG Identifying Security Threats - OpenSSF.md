@@ -44,7 +44,7 @@ Proposed Agenda Items (anyone can propose one here for small-ish items or to dis
 <h3>Planned Meetings </h3>
 
 
-Meetings take place every other week, alternating between Mondays and Wednesdays. The meeting calendar is available on the [OpenSSF Community Calendar](https://calendar.google.com/calendar?cid=czYzdm9lZmhwNWk5cGZsdGI1cTY3bmdwZXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ). (Look for a meeting titled “Identifying Security Threats WG”.)
+Meetings take place every other week, alternating between Mondays and Wednesdays. The meeting calendar is available on the [OpenSSF Community Calendar](https://calendar.google.com/calendar?cid=czYzdm9lZmhwNWk5cGZsdGI1cTY3bmdwZXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ). (Look for a meeting titled “Metrics and Metadata WG”.)
 
 Please use the [2024 Meeting Notes](https://docs.google.com/document/d/1XimygAYGbG2aofAiBD9--ZMTALdnbdbVw53R851ZZKY/edit?usp=sharing)
 
@@ -134,7 +134,7 @@ Agenda:
 ![image](https://github.com/ossf/wg-identifying-security-threats/assets/128058721/72c801b7-8bbd-4878-b9b9-c2531461535e)
 
 
-From the GitHub page: _The purpose of the Identifying Security Threats working group is to enable stakeholders to have informed confidence in the security of open source projects. We do this by collecting, curating, and communicating relevant metrics and metadata from open source projects and the ecosystems of which they are a part._
+From the GitHub page: _The purpose of the Metrics and Metadata working group is to enable stakeholders to have informed confidence in the security of open source projects. We do this by collecting, curating, and communicating relevant metrics and metadata from open source projects and the ecosystems of which they are a part._
 
 
 
@@ -309,10 +309,10 @@ Agenda:
 
 * Welcome new members
 * Review the OpenSSF MVSR for our WG review
-<h5>**[Identifying Security Threats in Open Source Projects WG](https://github.com/ossf/wg-identifying-security-threats) **</h5>
+<h5>**[Metrics and Metadata in Open Source Projects WG](https://github.com/ossf/wg-identifying-security-threats) **</h5>
 
 
-**The Identifying Security Threats in Open Source Projects WG collects, curates, and communicates relevant metrics and metadata from open source projects and the ecosystem. This is important because it enables stakeholders to have informed confidence in the security of open source projects. **
+**The Metrics and Metadata in Open Source Projects WG collects, curates, and communicates relevant metrics and metadata from open source projects and the ecosystem. This is important because it enables stakeholders to have informed confidence in the security of open source projects. **
 
 
 **Roadmap goal: **
@@ -1217,7 +1217,7 @@ Agenda:
 * _Optional: 1-3 illustrative quotes and attribution information._
 
 
-Identifying Security Threats
+Metrics and Metadata
 
 Purpose:
 To enable stakeholders to have informed confidence in the security of open source projects. We do this by collecting, curating, and communicating relevant metrics and metadata from open source projects and the ecosystems of which they are a part.
@@ -1970,7 +1970,7 @@ Agenda:
 * [https://github.com/ossf/alpha-omega/tree/scovetta/import-omega-analyzer/omega/analyzer](https://github.com/ossf/alpha-omega/tree/scovetta/import-omega-analyzer/omega/analyzer)
 * Proposal to Change WG Name
 * Current Description
-* _The purpose of the Identifying Security Threats working group is to enable stakeholders to have informed confidence in the security of open source projects. We do this by collecting, curating, and communicating relevant metrics and metadata from open source projects and the ecosystems of which they are a part._
+* _The purpose of the Metrics and Metadata working group is to enable stakeholders to have informed confidence in the security of open source projects. We do this by collecting, curating, and communicating relevant metrics and metadata from open source projects and the ecosystems of which they are a part._
 * Things we’ve done:
 * Metric Dashboard
 * Security Insights
