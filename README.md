@@ -39,26 +39,15 @@ ecosystem, as opposed to focusing exclusively on critical open source projects.
 
 ### Active Projects
 
-* [Alpha-Omega](https://openssf.org/community/alpha-omega)
-  * Leads: Michael Scovetta, Michael Winser, Brian Behlendorf
-
-* [Office Hours](https://openssf.slack.com/archives/C03LTHA6M61)
-  * Lead: Marta Rybczynska
-
 * [Security Insights](https://github.com/ossf/security-insights-spec) - Provides a mechanism for projects to report information about their security practices in a machine-readable way.
   * Lead: Luigi Gubello
 
-* [Security Metrics](https://metrics.openssf.org) -
-  This project's purpose is to collect, organize, and provide interesting security metrics for
+* **Security Risk Dashboard** - This project's purpose is to collect, organize, and provide interesting security metrics for
   open source projects to stakeholders, including users.
-  * Lead: Michael Scovetta [existing implementation]
-  * Leads: Vinod, Jay White, Christine Abernathy
+  * Lead: Jay White
 
 * [Security Reviews](https://github.com/ossf/security-reviews) -
   This repository contains a collection of security reviews of open source software.
-
-
-### Inactive Projects
 
 * [Threats, Risks, and Mitigations in the Open Source Ecosystem](https://github.com/ossf/wg-identifying-security-threats/blob/main/publications/threats-risks-mitigations/v1.1/Threats%2C%20Risks%2C%20and%20Mitigations%20in%20the%20Open%20Source%20Ecosystem%20-%20v1.1.pdf)
 
@@ -76,8 +65,6 @@ ecosystem, as opposed to focusing exclusively on critical open source projects.
 * [OpenSSF Scorecard](https://github.com/ossf/scorecard) - another input to the metrics dashboard
 
 * [CHAOSS](https://chaoss.community) - develops definitions of metrics
-
-* All of [OpenSSF](https://openssf.org/)
 
 ### Quick Start
 
@@ -104,4 +91,6 @@ Examples of types of actions that are prohibited at Linux Foundation meetings an
 The [CHARTER](https://github.com/ossf/wg-identifying-security-threats/blob/main/CHARTER.md)
 document outlines the scope and governance of our group activities.
 
-* Lead: [Michael Scovetta](mailto:michael.scovetta@microsoft.com)
+The workgroup leads are:
+* Michael Scovetta
+* Luigi Gubello
