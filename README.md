@@ -1,4 +1,4 @@
-# Identifying Security Threats in Open Source Projects
+# Metrics and Metadata  in Open Source Projects
 
 The purpose of this working group is to enable stakeholders to have informed
 confidence in the security of open source projects. We do this by collecting,
