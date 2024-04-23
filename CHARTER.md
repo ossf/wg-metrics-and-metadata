@@ -1,10 +1,10 @@
 # Technical Charter for Open Source Security Foundation
 
-Identifying Security Threats - Working Group
+Metrics and Metadata - Working Group
 
 Adopted June 23, 2022
 
-This Technical Charter sets forth the responsibilities and procedures for technical contribution to, and oversight of, the Identifying Security Threats open source community, which has been established as a Working Group  (the "Technical Initiative") under the Open Source Security Foundation (the “OpenSSF”).  All contributors (including committers, maintainers, and other technical positions) and other participants in the Technical Initiative (collectively, “Collaborators”) must comply with the terms of this Technical Charter and the OpenSSF Charter. 
+This Technical Charter sets forth the responsibilities and procedures for technical contribution to, and oversight of, the Metrics and Metadata of the open source community, which has been established as a Working Group  (the "Technical Initiative") under the Open Source Security Foundation (the “OpenSSF”).  All contributors (including committers, maintainers, and other technical positions) and other participants in the Technical Initiative (collectively, “Collaborators”) must comply with the terms of this Technical Charter and the OpenSSF Charter. 
 
 #### 1. Mission and Scope of the Technical Initiative
 
